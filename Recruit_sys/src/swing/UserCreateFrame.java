@@ -1,5 +1,7 @@
 package swing;
 
+import dao.UserDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class userCreateFrame extends JFrame implements ActionListener, MouseListener {
+public class UserCreateFrame extends JFrame implements ActionListener, MouseListener {
 
     private JPanel panelA;
     private JLabel idLabel;
@@ -23,7 +25,7 @@ public class userCreateFrame extends JFrame implements ActionListener, MouseList
     private JPanel panelB;
     private JButton userCreateButton;
 
-    public userCreateFrame() {
+    public UserCreateFrame() {
         initData();
         setInitLayout();
         addEventListener();
@@ -92,14 +94,19 @@ public class userCreateFrame extends JFrame implements ActionListener, MouseList
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
+        int result = 0;
 
         if (targetB == userCreateButton) {
             this.dispose();
         } else if (targetB == idCheckButton) {
-            if (idCheckButton.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null,"입력된 값이 없어요", "", JOptionPane.ERROR_MESSAGE);
+            if (idField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog
+                        (null,"입력된 값이 없어요. 아이디를 입력해주세요.",
+                                "중복확인", JOptionPane.PLAIN_MESSAGE);
                 return;
             }
+            UserDAO userDAO = new UserDAO();
+
         }
     }
 
@@ -129,6 +136,6 @@ public class userCreateFrame extends JFrame implements ActionListener, MouseList
     }
 
     public static void main(String[] args) {
-        new userCreateFrame();
+        new UserCreateFrame();
     }
 }

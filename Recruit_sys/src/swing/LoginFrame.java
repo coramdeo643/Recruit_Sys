@@ -81,9 +81,18 @@ public class LoginFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton targerB = (JButton) e.getSource();
-        if (targerB == userCreate) {
-            new userCreateFrame();
+        JButton targetB = (JButton) e.getSource();
+        if (targetB == userCreate) {
+            new UserCreateFrame();
+        } else if (targetB == userLogin) {
+            if (idField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "이메일을 입력해주세요.","",JOptionPane.PLAIN_MESSAGE);
+            } else if (pwField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                new AnnounceFrame();
+            }
+
         }
     }
 
