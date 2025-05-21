@@ -1,6 +1,5 @@
 package dao;
 
-import dto.Company;
 import dto.User;
 import util.DatabaseUtil;
 
@@ -72,18 +71,6 @@ public class UserDAO {
         return userList;
     }
 
-    // 유저 탈퇴
-    public void deleteUser(String name) throws SQLException {
-        String deleteSql = "delete from user where user_name = ? ";
-
-        try (Connection conn = DatabaseUtil.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
-
-            pstmt.setString(1, name);
-            pstmt.executeUpdate();
-        }
-    }
-
     // 유저 인증
     public User authenticateUser(String name) throws SQLException {
         String checkSql = "select * from user where user_name = ? ";
@@ -109,23 +96,23 @@ public class UserDAO {
         return user;
     }
 
-    // TODO 테스트 코드는 이후에 삭제될 예정입니다.
-    public static void main(String[] args) {
-        UserDAO userDAO = new UserDAO();
-        List<User> userList = new ArrayList<>();
-
-        try {
-//            userDAO.addUser(new User(1, "김철수", "a@naver.com", "asd1234", "부산시 부산진구")); // 유저 추가 메서드 테스트
-            userList = userDAO.getAllUser(); // 유저 전체 조회 메서드 테스트
-//            userList = userDAO.getSelectedUser("이철수", ""); // 유저 선택 조회 메서드 테스트
-//            userDAO.authenticateUser("김철수"); // 유저 인증 메서드 테스트
-
-            for (int i = 0; i < userList.size(); i++) {
-                System.out.println(userList.get(i));
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    // TODO 테스트 코드는 이후에 삭제될 예정입니다.
+//    public static void main(String[] args) {
+//        UserDAO userDAO = new UserDAO();
+//        List<User> userList = new ArrayList<>();
+//
+//        try {
+////            userDAO.addUser(new User(1, "김철수", "a@naver.com", "asd1234", "부산시 부산진구")); // 유저 추가 메서드 테스트
+//            userList = userDAO.getAllUser(); // 유저 전체 조회 메서드 테스트
+////            userList = userDAO.getSelectedUser("이철수", ""); // 유저 선택 조회 메서드 테스트
+////            userDAO.authenticateUser("김철수"); // 유저 인증 메서드 테스트
+//
+//            for (int i = 0; i < userList.size(); i++) {
+//                System.out.println(userList.get(i));
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

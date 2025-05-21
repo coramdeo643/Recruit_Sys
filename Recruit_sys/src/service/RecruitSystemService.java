@@ -1,20 +1,28 @@
 package service;
 
-import dao.CompanyDAO;
-import dao.UserDAO;
-import dto.Company;
-import dto.User;
+import dto.*;
+import dao.*;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class RecruitSystemService {
     private UserDAO userDAO = new UserDAO();
-    private CompanyDAO companyDAO;
+    private CompanyDAO companyDAO = new CompanyDAO();
+    private AnnounceDAO announceDAO = new AnnounceDAO();
 
     // ----------------------- 유저 -------------------------
+    // 유저 추가하는 기능
     public void addUser(User user) {
-        if (user != null && !user.getName().trim().isEmpty()) {
+        if (user.getName() != null && !user.getName().trim().isEmpty() ||
+            user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
+
+            String checkEmail = user.getEmail().substring(user.getEmail().length() - 4);
+
+            if(!checkEmail.equals(".com")) {
+                throw new RuntimeException("잘못된 이메일 형식입니다.");
+            }
+
             try {
                 User user1 = userDAO.authenticateUser(user.getName());
                 if (user1 == null) {
@@ -29,6 +37,7 @@ public class RecruitSystemService {
         }
     }
 
+    // 전체 유저 조회하는 기능
     public List<User> getAllUser() {
         List<User> userList = null;
 
@@ -41,6 +50,7 @@ public class RecruitSystemService {
         return userList;
     }
 
+    // 특정 유저 검색하는 기능
     public List<User> getSelectedUser(String name, String checkAddress) {
         List<User> userList = null;
 
@@ -53,16 +63,22 @@ public class RecruitSystemService {
     }
 
     // ----------------------- 회사 -------------------------
+    // 회사 추가하는 기능
     public void addCompany(Company company) {
-        if (company != null && !company.getName().trim().isEmpty()) {
+        if (company.getName() != null && !company.getName().trim().isEmpty() ||
+            company.getAddress() != null && !company.getAddress().trim().isEmpty()) {
             try {
-                companyDAO.addCompany(company);
+                Company company1 = companyDAO.authenticateCompany(company.getName());
+                if(company1 != null) {
+                    companyDAO.addCompany(company);
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
+    // 회사 전부 조회하는 기능
     public List<Company> getAllCompany() {
         List<Company> companyList = null;
 
@@ -74,12 +90,15 @@ public class RecruitSystemService {
         return companyList;
     }
 
+    // ------------------ 공고 -----------------------
+
     public static void main(String[] args) {
         RecruitSystemService service = new RecruitSystemService();
-        service.addUser(new User(0, "김철수", "a@gmail.com", "asfadsfasd", "dsadsad"));
+        service.addUser(new User(0, "박철수", "v@gmail.bom", "asfa1242fasd", "경상남도"));
         List<User> userList = service.getAllUser();
-        for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i));
+
+        for (User u : userList) {
+            System.out.println(u);
         }
     }
 }
