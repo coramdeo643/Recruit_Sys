@@ -62,7 +62,7 @@ public class CompanyDAO {
             }
         }
     }
-    
+
     public static void main(String[] args) {
 
         CompanyDAO companyDAO = new CompanyDAO();
