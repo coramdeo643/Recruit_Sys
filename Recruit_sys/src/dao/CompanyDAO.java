@@ -68,8 +68,8 @@ public class CompanyDAO {
         CompanyDAO companyDAO = new CompanyDAO();
 
         try {
-            companyDAO.addCompany(new Company(2, "r", "r")); // 추가 테스트
-            // ArrayList<Company> companyArrayList = new ArrayList<>();
+            // companyDAO.addCompany(new Company(2, "r", "r")); // 추가 테스트
+            ArrayList<Company> companyArrayList = new ArrayList<>();
             //companyDAO.authenticateCompany("카오"); // 인증 테스트
 
             for (int i = 0; i < companyDAO.getAllCompany().size(); i++) {
