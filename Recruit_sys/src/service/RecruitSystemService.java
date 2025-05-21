@@ -6,10 +6,9 @@ import dto.Company;
 import dto.User;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Service {
+public class RecruitSystemService {
     private UserDAO userDAO = new UserDAO();
     private CompanyDAO companyDAO;
 
@@ -76,7 +75,7 @@ public class Service {
     }
 
     public static void main(String[] args) {
-        Service service = new Service();
+        RecruitSystemService service = new RecruitSystemService();
         service.addUser(new User(0, "김철수", "a@gmail.com", "asfadsfasd", "dsadsad"));
         List<User> userList = service.getAllUser();
         for (int i = 0; i < userList.size(); i++) {

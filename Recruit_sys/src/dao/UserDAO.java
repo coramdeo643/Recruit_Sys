@@ -2,7 +2,7 @@ package dao;
 
 import dto.Company;
 import dto.User;
-import util.Database;
+import util.DatabaseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +16,7 @@ public class UserDAO {
     // 유저 추가
     public void addUser(User user) throws SQLException {
         String insertSql = "insert into user(user_name, email, password, address) values (?, ?, ?, ?) ";
-        try(Connection conn = Database.getConnection();
+        try(Connection conn = DatabaseUtil.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getEmail());
@@ -31,7 +31,7 @@ public class UserDAO {
         List<User> userList = new ArrayList<>();
         String checkSql = "select * from user ";
 
-        try(Connection conn = Database.getConnection();
+        try(Connection conn = DatabaseUtil.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
             ResultSet rs = pstmt.executeQuery()) {
 
@@ -53,7 +53,7 @@ public class UserDAO {
         List<User> userList = new ArrayList<>();
         String selectUserSql = "select id, user_name, email, address from user where user_name = ? and address like ? ";
 
-        try(Connection conn = Database.getConnection();
+        try(Connection conn = DatabaseUtil.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(selectUserSql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, (checkAddress + "%"));
@@ -76,7 +76,7 @@ public class UserDAO {
     public void deleteUser(String name) throws SQLException {
         String deleteSql = "delete from user where user_name = ? ";
 
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseUtil.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
 
             pstmt.setString(1, name);
@@ -89,7 +89,7 @@ public class UserDAO {
         String checkSql = "select * from user where user_name = ? ";
         User user = null;
 
-        try(Connection conn = Database.getConnection();) {
+        try(Connection conn = DatabaseUtil.getConnection();) {
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();

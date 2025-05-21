@@ -1,7 +1,7 @@
 package dao;
 
 import dto.Company;
-import util.Database;
+import util.DatabaseUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class CompanyDAO {
     public void addCompany(Company company) throws SQLException {
         String sql = "insert into company (company_name, address) values (?, ?) ";
 
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, company.getName());
             pstmt.setString(2, company.getAddress());
@@ -30,7 +30,7 @@ public class CompanyDAO {
     public List<Company> getAllCompany() throws SQLException {
         List<Company> companyList = new ArrayList<>();
         String sql = "select * from company";
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
 
@@ -48,7 +48,7 @@ public class CompanyDAO {
     // 회사 인증
     public Company authenticateCompany(String name) throws SQLException {
         String sql = "select * from company where company_name = ? ";
-        try (Connection conn = Database.getConnection();
+        try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
