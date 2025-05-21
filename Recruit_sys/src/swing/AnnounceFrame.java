@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AnnounceFrame extends JFrame implements ActionListener {
 
@@ -15,6 +16,8 @@ public class AnnounceFrame extends JFrame implements ActionListener {
     private JButton logoutButton;
     private JButton listButton;
     private JButton myPageButton;
+
+    private JPanel mainPanel;
 
     public AnnounceFrame() {
         initData();
@@ -32,6 +35,8 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         logoutButton = new JButton("로그아웃");
         listButton = new JButton("채용공고 목록");
         myPageButton = new JButton("마이페이지");
+
+        mainPanel = new JPanel();
     }
 
     private void setInitLayout() {
@@ -62,6 +67,35 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         myPageButton.setLocation(150,10);
         topPanel.add(myPageButton);
 
+        mainPanel.setLocation(0, 100);
+        mainPanel.setSize(800,350);
+        mainPanel.setBackground(Color.PINK);
+        add(mainPanel);
+
+        //TODO SAMPLE DATA -- 삭제 예정
+        ArrayList<String> sampleList = new ArrayList<>();
+        sampleList.add("삼성전자 - 2025년 상반기 신입사원 채용 (연구개발/생산기술)");
+        sampleList.add("LG전자 - AI 소프트웨어 개발자 수시 채용");
+        sampleList.add("SK하이닉스 - 메모리 반도체 설계 경력사원 모집");
+        sampleList.add("카카오 - 프론트엔드 개발자 (경력 3년 이상)");
+        sampleList.add("네이버 - 클라우드 엔지니어 채용");
+        sampleList.add("쿠팡 - 물류 자동화 시스템 개발자");
+        sampleList.add("라인플러스 - 백엔드 개발자 (Java/Kotlin)");
+        sampleList.add("엔씨소프트 - 게임 클라이언트 프로그래머");
+        sampleList.add("넷마블 - UX/UI 디자이너 신입 채용");
+        sampleList.add("현대자동차 - 자율주행 소프트웨어 개발");
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String post : sampleList) {
+            listModel.addElement(post);
+        }
+        JList<String> jobList = new JList<>(listModel);
+        jobList.setFixedCellHeight(40);
+        jobList.setBackground(new Color(240, 248, 255)); // 배경색 (앨리스 블루)
+        jobList.setForeground(new Color(25, 25, 112)); // 글자색 (미드나잇 블루)
+        JScrollPane scrollPane = new JScrollPane(jobList);
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        mainPanel.add(scrollPane);
+
         setVisible(true);
     }
 
@@ -70,6 +104,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         listButton.addActionListener(this);
         myPageButton.addActionListener(this);
     }
+
 
 
     @Override
