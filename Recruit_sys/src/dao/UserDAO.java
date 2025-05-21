@@ -16,8 +16,8 @@ public class UserDAO {
     // 유저 추가
     public void addUser(User user) throws SQLException {
         String insertSql = "insert into user(user_name, email, password, address) values (?, ?, ?, ?) ";
-        try(Connection conn = Database.getConnection()) {
-            PreparedStatement pstmt = conn.prepareStatement(insertSql);
+        try(Connection conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getEmail());
             pstmt.setString(3, user.getPassword());
@@ -31,16 +31,16 @@ public class UserDAO {
         List<User> userList = new ArrayList<>();
         String checkSql = "select * from user ";
 
-        try(Connection conn = Database.getConnection();) {
+        try(Connection conn = Database.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery()) {
 
             while(rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("user_name");
                 String email = rs.getString("email");
                 String password = null;
-                String address = rs.getString("address").substring(0, 8).trim() + "****";
+                String address = rs.getString("address").substring(0, 3).trim() + "****";
 
                 userList.add(new User(id, name, email, password, address));
             }
@@ -53,8 +53,8 @@ public class UserDAO {
         List<User> userList = new ArrayList<>();
         String selectUserSql = "select id, user_name, email, address from user where user_name = ? and address like ? ";
 
-        try(Connection conn = Database.getConnection();) {
-            PreparedStatement pstmt = conn.prepareStatement(selectUserSql);
+        try(Connection conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(selectUserSql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, (checkAddress + "%"));
             ResultSet rs = pstmt.executeQuery();
@@ -64,7 +64,7 @@ public class UserDAO {
                 String user_name = rs.getString("user_name");
                 String email = rs.getString("email");
                 String password = null;
-                String address = rs.getString("address").substring(0, 8).trim() + "****";
+                String address = rs.getString("address").substring(0, 3).trim() + "****";
 
                 userList.add(new User(id, user_name, email, password, address));
             }
@@ -72,19 +72,41 @@ public class UserDAO {
         return userList;
     }
 
+    // 유저 탈퇴
+    public void deleteUser(String name) throws SQLException {
+        String deleteSql = "delete from user where user_name = ? ";
+
+        try (Connection conn = Database.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+
+            pstmt.setString(1, name);
+            pstmt.executeUpdate();
+        }
+    }
+
     // 유저 인증
-    public void authenticateUser(String name) throws SQLException {
+    public User authenticateUser(String name) throws SQLException {
         String checkSql = "select * from user where user_name = ? ";
+        User user = null;
 
         try(Connection conn = Database.getConnection();) {
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
 
-            if(!rs.next()) {
-                throw new SQLException("해당 유저는 존재하지 않습니다.");
+            if(rs.next()) {
+                int id = rs.getInt("id");
+                String name1 = rs.getString("user_name");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String address = rs.getString("address");
+
+                user = new User(id, name1, email, password, address);
+            } else {
+                return null;
             }
         }
+        return user;
     }
 
     // TODO 테스트 코드는 이후에 삭제될 예정입니다.
