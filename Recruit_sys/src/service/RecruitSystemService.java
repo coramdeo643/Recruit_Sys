@@ -4,12 +4,13 @@ import dto.*;
 import dao.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecruitSystemService {
-    private UserDAO userDAO = new UserDAO();
-    private CompanyDAO companyDAO = new CompanyDAO();
-    private AnnounceDAO announceDAO = new AnnounceDAO();
+    private final UserDAO userDAO = new UserDAO();
+    private final CompanyDAO companyDAO = new CompanyDAO();
+    private final AnnounceDAO announceDAO = new AnnounceDAO();
 
     // ----------------------- 유저 -------------------------
     // 유저 추가하는 기능
@@ -24,7 +25,7 @@ public class RecruitSystemService {
             }
 
             try {
-                User user1 = userDAO.authenticateUser(user.getName());
+                User user1 = userDAO.authenticateUser(user.getEmail(), user.getPassword());
                 if (user1 == null) {
                     userDAO.addUser(user);
                 }
@@ -91,6 +92,33 @@ public class RecruitSystemService {
     }
 
     // ------------------ 공고 -----------------------
+    // 공고 추가 하는 기능
+    public void a(Announce announce) {
+        if (announce.getCompany_name() != null && !announce.getCompany_name().trim().isEmpty() ||
+            announce.getAddress() != null && !announce.getAddress().trim().isEmpty() ||
+            announce.getContent() != null && !announce.getContent().trim().isEmpty()) {
+            //sdsadsa
+        }
+    }
+
+    // 공고 전체 조회 하는 기능
+    public List<Announce> b() {
+        List<Announce> announceList = new ArrayList<>();
+
+        return announceList;
+    }
+
+    // 공고 선택 조회 하는 기능
+    public List<Announce> c() {
+        List<Announce> announceList = new ArrayList<>();
+
+        return announceList;
+    }
+
+    // 공고 선택 삭제 하는 기능
+    public void d(String name, String content) {
+
+    }
 
     public static void main(String[] args) {
         RecruitSystemService service = new RecruitSystemService();
