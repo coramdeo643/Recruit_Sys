@@ -1,12 +1,18 @@
 package swing;
 
+import dto.Company;
+import service.RecruitSystemService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
+    private final RecruitSystemService recruitSystemService = new RecruitSystemService();
     private JPanel topPanel;
     private JLabel idLabel;
     private JButton logoutButton;
@@ -67,13 +73,39 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         mainPanel.setSize(800,350);
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
+
+        List<Company> sampleList = recruitSystemService.getAllCompany();
+        DefaultListModel<Company> listModel = new DefaultListModel<>();
+        for (Company post : sampleList) {
+            listModel.addElement(post);
+        }
+        JList<Company> jobList = new JList<>(listModel);
+        jobList.setFixedCellHeight(40);
+        jobList.setBackground(new Color(240, 248, 255)); // 배경색 (앨리스 블루)
+        jobList.setForeground(new Color(25, 25, 112)); // 글자색 (미드나잇 블루)
+        JScrollPane scrollPane = new JScrollPane(jobList);
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        mainPanel.add(scrollPane);
+
+        setVisible(true);
+
     }
 
     private void addEventListener() {
+        logoutButton.addActionListener(this);
+        listButton.addActionListener(this);
+        myPageButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JButton targetB = (JButton) e.getSource();
+        if (targetB == logoutButton) {
+            this.dispose();
+        }
+    }
 
+    public static void main(String[] args) {
+        new GetAllCompanyFrame();
     }
 }
