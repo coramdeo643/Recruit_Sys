@@ -48,19 +48,24 @@ public class CompanyDAO {
     // 회사 인증
     public Company authenticateCompany(String name) throws SQLException {
         String sql = "select * from company where company_name = ? ";
+        Company company = null;
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                Company companyDTO = new Company();
-                companyDTO.setName(rs.getString("company_name"));
-                return companyDTO;
+                int id = rs.getInt("id");
+                String name1 = rs.getString("company_name");
+                String address = rs.getString("address");
+
+                company = new Company(id,name1, address);
+
             } else {
-                throw new SQLException("회사가 존재하지 않습니다.");
+                return null;
             }
         }
+        return company;
     }
 
     public static void main(String[] args) {

@@ -1,25 +1,28 @@
 package swing;
 
 import dao.CompanyDAO;
+import service.RecruitSystemService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class CompanyCreateFrame extends JFrame implements ActionListener, MouseListener {
+
+public class CompanyCreateFrame extends JFrame implements ActionListener {
+
+    private final RecruitSystemService recruitSystemService = new RecruitSystemService();
 
     private JPanel panelA;
     private JLabel nameLabel;
     private JTextField nameField;
-    private JButton nameCheckButton;
     private JLabel addrLabel;
     private JTextField addrField;
 
     private JPanel panelB;
     private JButton companyCreateButton;
+
+    private final JTextField[] textFields = new JTextField[2];
 
     public CompanyCreateFrame(){
         initData();
@@ -35,12 +38,14 @@ public class CompanyCreateFrame extends JFrame implements ActionListener, MouseL
         panelA = new JPanel();
         nameLabel = new JLabel("이        름");
         nameField = new JTextField("", 10);
-        nameCheckButton = new JButton("중복확인");
         addrLabel = new JLabel("주        소");
         addrField = new JTextField("", 10);
 
         panelB = new JPanel();
         companyCreateButton = new JButton("회사등록");
+
+        textFields[0] = nameField;
+        textFields[1] = addrField;
 
 
     }
@@ -57,9 +62,6 @@ public class CompanyCreateFrame extends JFrame implements ActionListener, MouseL
 
         panelA.add(nameLabel);
         panelA.add(nameField);
-        nameCheckButton.setSize(90, 30);
-        nameCheckButton.setLocation(250, 50);
-        add(nameCheckButton);
         panelA.add(addrLabel);
         panelA.add(addrField);
 
@@ -75,50 +77,23 @@ public class CompanyCreateFrame extends JFrame implements ActionListener, MouseL
 
     private void addEventListener() {
         companyCreateButton.addActionListener(this);
-        nameCheckButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
-        int result = 0;
+
+        if(targetB == companyCreateButton){
+            String name = textFields[0].getText();
+            String addr = textFields[1].getText();
+            recruitSystemService.addCompany(name, addr);
+
+        }
 
         if(targetB == companyCreateButton){
             this.dispose();
-        } else if (targetB == nameCheckButton) {
-            if(nameField.getText().isEmpty()){
-                JOptionPane.showMessageDialog
-                        (null,"입력된 값이 없어요. 회사 이름을 입력해주세요.",
-                                "중복확인", JOptionPane.PLAIN_MESSAGE);
-                return;
-            }
-            CompanyDAO companyDAO = new CompanyDAO();
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+        CompanyDAO companyDAO = new CompanyDAO();
     }
 
     public static void main(String[] args) {

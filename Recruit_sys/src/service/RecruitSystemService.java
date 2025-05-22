@@ -268,10 +268,14 @@ public class RecruitSystemService {
             address != null && !address.trim().isEmpty()) {
             try {
                 company = companyDAO.authenticateCompany(company.getName());
-                if(company != null) {
+                if(company == null) {
                     companyDAO.addCompany(new Company(0, name, address));
+                    System.out.println("회사 등록이 완료되었습니다!");
                 }
             } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (Exception e) {
+                System.err.println("회사 등록을 할 수 없습니다");
                 throw new RuntimeException(e);
             }
         }
