@@ -1,16 +1,12 @@
 package swing;
 
 import dto.Announce;
-import dto.Company;
 import service.AnnounceService;
-import service.RecruitSystemService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnnounceFrame extends JFrame implements ActionListener {
@@ -84,23 +80,18 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
 
-//        List<Announce> sampleList = null;
-//        try {
-//            sampleList = announceService.getAllAnnounce();
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        DefaultListModel<Announce> listModel = new DefaultListModel<>();
-//        for (Announce post : sampleList) {
-//            listModel.addElement(post);
-//        }
-//        JList<Announce> jobList = new JList<>(listModel);
-//        jobList.setFixedCellHeight(40);
-//        jobList.setBackground(new Color(240, 248, 255));
-//        jobList.setForeground(new Color(25, 25, 112));
-//        JScrollPane scrollPane = new JScrollPane(jobList);
-//        scrollPane.setPreferredSize(new Dimension(600, 300));
-//        mainPanel.add(scrollPane);
+        List<Announce> sampleList = announceService.getAllAnnounce();
+        DefaultListModel<Announce> listModel = new DefaultListModel<>();
+        for (Announce post : sampleList) {
+            listModel.addElement(post);
+        }
+        JList<Announce> jobList = new JList<>(listModel);
+        jobList.setFixedCellHeight(40);
+        jobList.setBackground(new Color(240, 248, 255));
+        jobList.setForeground(new Color(25, 25, 112));
+        JScrollPane scrollPane = new JScrollPane(jobList);
+        scrollPane.setPreferredSize(new Dimension(600, 300));
+        mainPanel.add(scrollPane);
 
         setVisible(true);
     }

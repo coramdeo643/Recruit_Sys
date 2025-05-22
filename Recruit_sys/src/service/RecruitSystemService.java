@@ -216,7 +216,7 @@ public class RecruitSystemService {
             try {
                 user = authenticateUser(email, password);
                 if (user == null) {
-                    userDAO.addUser(new User(0,name, email, address, password));
+                    userDAO.addUser(new User(0, name, email, address, password));
                     System.out.println("회원가입이 완료되었습니다!");
                 }
             } catch (SQLException e) {
