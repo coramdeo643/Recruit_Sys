@@ -125,13 +125,16 @@ public class AnnounceDAO {
         int resultSet1 = 0;
 
         try {
+            connection.setAutoCommit();
             String deleteSql = " delete from announce where company_name = ? and content like ? ";
             connection = DatabaseUtil.getConnection();
             preparedStatement = connection.prepareStatement(deleteSql);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, content);
             resultSet1 = preparedStatement.executeUpdate();
+            connection.commit();
         } catch(SQLException e) {
+            connection.rollback();
             throw new SQLException();
         } finally {
             try {
@@ -146,10 +149,6 @@ public class AnnounceDAO {
             }
         }
         return resultSet1;
-
-
-
-
 //            while(resultSet) {
 //                int id = resultSet.getInt("id");
 //                String name1 = resultSet.getString("company_name");
