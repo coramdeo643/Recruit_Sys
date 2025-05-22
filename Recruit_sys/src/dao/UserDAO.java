@@ -72,47 +72,28 @@ public class UserDAO {
     }
 
     // 유저 인증
-    public User authenticateUser(String name) throws SQLException {
-        String checkSql = "select * from user where user_name = ? ";
+    public User authenticateUser(String email, String password) throws SQLException {
+        String checkSql = "select * from user where email = ? and password = ? ";
         User user = null;
 
         try(Connection conn = DatabaseUtil.getConnection();) {
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
-            pstmt.setString(1, name);
+            pstmt.setString(1, email);
+            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
                 int id = rs.getInt("id");
-                String name1 = rs.getString("user_name");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
+                String name = rs.getString("user_name");
+                String email1 = rs.getString("email");
+                String password1 = rs.getString("password");
                 String address = rs.getString("address");
 
-                user = new User(id, name1, email, password, address);
+                user = new User(id, name, email1, password1, address);
             } else {
                 return null;
             }
         }
         return user;
     }
-
-//    // TODO 테스트 코드는 이후에 삭제될 예정입니다.
-//    public static void main(String[] args) {
-//        UserDAO userDAO = new UserDAO();
-//        List<User> userList = new ArrayList<>();
-//
-//        try {
-////            userDAO.addUser(new User(1, "김철수", "a@naver.com", "asd1234", "부산시 부산진구")); // 유저 추가 메서드 테스트
-//            userList = userDAO.getAllUser(); // 유저 전체 조회 메서드 테스트
-////            userList = userDAO.getSelectedUser("이철수", ""); // 유저 선택 조회 메서드 테스트
-////            userDAO.authenticateUser("김철수"); // 유저 인증 메서드 테스트
-//
-//            for (int i = 0; i < userList.size(); i++) {
-//                System.out.println(userList.get(i));
-//            }
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }
