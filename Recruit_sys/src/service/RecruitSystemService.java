@@ -19,6 +19,7 @@ public class RecruitSystemService {
     private int selected;
     private int inputLoginType;
     private String inputComName;
+    private String inputComContent;
     private String inputUserEmail;
     private String inputUserPW;
 
@@ -136,37 +137,50 @@ public class RecruitSystemService {
             switch (selected) {
                 case 1:
                     System.out.println("전체 공고를 조회합니다");
-//                    try {
-//                        announceList = announceDAO;
-//                        for (Announce a : announceList) {
-//                            System.out.println(a);
-//                        }
-//                    } catch (SQLException e) {
-//                        throw new RuntimeException(e);
-//                    }
+                    try {
+                        announceList = announceDAO.getAllAnnounce();
+                        for (Announce a : announceList) {
+                            System.out.println(a);
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 2:
-                    System.out.println("어떤 공고를 조회하실 건가요?\n입력: ");
-//                    announceDAO;
-//                    try {
-////                        announceList = announceDAO;
-////                        for (Announce a : announceList) {
-////                            System.out.println(a);
-////                        }
-////                    } catch (SQLException e) {
-////                        throw new RuntimeException(e);
-//                    }
+                    try {
+                        System.out.println("어떤 공고를 조회하실 건가요? 먼저 회사 이름을 입력해주세요.\n입력: ");
+                        inputComName = scanner.next();
+                    } catch (InputMismatchException e) {
+                        throw new InputMismatchException("String 값만 입력해주세요!");
+                    }
+
+                    try {
+                        System.out.println("이제 공고 내용에 포함될 단어를 입력해주세요");
+                        inputComContent = scanner.next();
+                    } catch (InputMismatchException e) {
+                        throw new InputMismatchException("String 값만 입력해주세요!");
+                    }
+
+                    try {
+                        announceList = announceDAO.choiceAnnounce(inputComName, inputComContent);
+                        for (Announce a : announceList) {
+                            System.out.println(a);
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 3:
+                    //FIXME 수정해야함
                     System.out.println("어떤 회사에 지원하실 건가요?\n입력: ");
-//                    try {
-//                        announceList = announceDAO;
-//                        for (Announce a : announceList) {
-//                            System.out.println(a);
-//                        }
-//                    } catch (SQLException e) {
-//                        throw new RuntimeException(e);
-//                    }
+                    try {
+                        announceList = announceDAO.getAllAnnounce();
+                        for (Announce a : announceList) {
+                            System.out.println(a);
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case 4:
                     user = null;
@@ -192,17 +206,19 @@ public class RecruitSystemService {
             switch (selected) {
                 case 1:
                     System.out.println("어떤 공고를 추가하실 건가요?\n입력: ");
+                    // FIXME 수정해야함
 //                    announceDAO;
 //                    try {
-////                        announceList = announceDAO;
-////                        for (Announce a : announceList) {
-////                            System.out.println(a);
-////                        }
-////                    } catch (SQLException e) {
-////                        throw new RuntimeException(e);
+//                        announceList = announceDAO;
+//                        for (Announce a : announceList) {
+//                            System.out.println(a);
+//                        }
+//                    } catch (SQLException e) {
+//                        throw new RuntimeException(e);
 //                    }
-                    break;
+//                    break;
                 case 2:
+                    // FIXME 수정해야함
                     System.out.println("전체 공고를 조회합니다");
 //                    try {
 //                        announceList = announceDAO;
@@ -212,8 +228,9 @@ public class RecruitSystemService {
 //                    } catch (SQLException e) {
 //                        throw new RuntimeException(e);
 //                    }
-                    break;
+//                    break;
                 case 3:
+                    // FIXME 수정해야함
                     System.out.println("어떤 공고를 삭제하실 건가요?\n입력: ");
 //                    try {
 //                        announceList = announceDAO;

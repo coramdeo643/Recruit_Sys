@@ -3,8 +3,6 @@ package dao;
 import dto.Announce;
 import util.DatabaseUtil;
 
-import javax.swing.*;
-import java.nio.channels.ScatteringByteChannel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +32,14 @@ public class AnnounceDAO {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
+                int user_id = resultSet.getInt("user_id");
+                int company_id = resultSet.getInt("company_id");
                 String companyName = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
 
-                announceList.add(new Announce(id, companyName, address, content, available));
+                announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
             }
         }
         return announceList;
@@ -56,12 +56,14 @@ public class AnnounceDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
+                int user_id = resultSet.getInt("user_id");
+                int company_id = resultSet.getInt("company_id");
                 String companyName = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
 
-                announceList.add(new Announce(id, companyName, address, content, available));
+                announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
             }
         }
         return announceList;
@@ -86,11 +88,13 @@ public class AnnounceDAO {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
+                int user_id = resultSet.getInt("user_id");
+                int company_id = resultSet.getInt("company_id");
                 String name1 = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String contents = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-                announceList.add(new Announce(id, name1, address, contents, available));
+                announceList.add(new Announce(id, user_id, company_id, name1, address, contents, available));
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -118,8 +122,8 @@ public class AnnounceDAO {
         // 자동 삭제하기
 
 //        List<Announce> announceList = new ArrayList<>();
-//        // try() {} catch(E .. e) {} <-- 자동 리소스 닫아 주는 기능
-//        // try {} catch (E .. e) {}
+//        // try() {} catch(E . e) {} <-- 자동 리소스 닫아 주는 기능
+//        // try {} catch (E . e) {}
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         int resultSet1 = 0;
