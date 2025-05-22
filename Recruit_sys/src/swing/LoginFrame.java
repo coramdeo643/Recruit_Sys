@@ -17,8 +17,9 @@ public class LoginFrame extends JFrame implements ActionListener {
 
     private JPanel panelB;
     private JButton userCreate;
+    private JButton companyCreate;
+
 //    private JButton userList;
-//    private JButton companyCreate;
 //    private JButton companyList;
 //    private JButton announceCreate;
 //    private JButton announceApply;
@@ -43,6 +44,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         userLogin = new JButton("로그인");
         userLogout = new JButton("로그아웃");
         userCreate = new JButton("회원등록");
+        companyCreate = new JButton("회사등록");
     }
 
     private void setInitLayout() {
@@ -70,12 +72,15 @@ public class LoginFrame extends JFrame implements ActionListener {
         add(panelB);
         userCreate.setSize(80, 50);
         panelB.add(userCreate);
+        companyCreate.setSize(80,50);
+        panelB.add(companyCreate);
 
         setVisible(true);
     }
 
     private void addEventListener() {
         userCreate.addActionListener(this);
+        companyCreate.addActionListener(this);
         userLogin.addActionListener(this);
     }
 
@@ -92,7 +97,8 @@ public class LoginFrame extends JFrame implements ActionListener {
             } else {
                 new AnnounceFrame();
             }
-
+        } else if (targetB == companyCreate) {
+            new CompanyCreateFrame();
         }
     }
 

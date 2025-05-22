@@ -25,6 +25,8 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
     private JPanel panelB;
     private JButton userCreateButton;
 
+    private JTextField[] textFields = new JTextField[3];
+
     public UserCreateFrame() {
         initData();
         setInitLayout();
@@ -97,6 +99,7 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
         int result = 0;
 
         if (targetB == userCreateButton) {
+            String id;
             this.dispose();
         } else if (targetB == idCheckButton) {
             if (idField.getText().isEmpty()) {
