@@ -10,17 +10,38 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RecruitSystemService {
-    private final UserDAO userDAO = new UserDAO();
-    private final CompanyDAO companyDAO = new CompanyDAO();
-    private final AnnounceDAO announceDAO = new AnnounceDAO();
+    // 기본 변수
+    /// 유저 변수
+    private User user = new User();
+    private UserDAO userDAO = new UserDAO();
+    private List<User> userList = new ArrayList<>();
+
+    /// 회사 변수
+    private Company company = new Company();
+    private CompanyDAO companyDAO = new CompanyDAO();
+    private List<Company> companyList = new ArrayList<>();
+
+    /// 공고 변수
+    private Announce announce = new Announce();
+    private AnnounceDAO announceDAO = new AnnounceDAO();
+    private List<Announce> announceList = new ArrayList<>();
+
+    /// 그 외
     private Scanner scanner = new Scanner(System.in);
 
     // 입력값
     private int selected;
     private int inputLoginType;
+
+    /// 회사 및 공고 정보
     private String inputComName;
+    private String inputComAddress;
     private String inputComContent;
+
+    /// 유저 정보
+    private String inputUserName;
     private String inputUserEmail;
+    private String inputUserAddress;
     private String inputUserPW;
 
     public void start() {
@@ -44,14 +65,10 @@ public class RecruitSystemService {
                     System.err.println("1 또는 2만 입력해주세요!");
             }
         }
-    }
+    } // Okay
 
     public void login() {
         System.out.printf("혹시 로그인 유형은 어떻게 되시나요? 1. 회사 관리자 / 2. 구직자 / 3. 프로그램 종료\n입력: ");
-        User user = new User();
-        UserDAO userDAO1 = new UserDAO();
-        Company company = new Company();
-        CompanyDAO companyDAO1 = new CompanyDAO();
 
         try {
             inputLoginType = scanner.nextInt();
@@ -71,7 +88,7 @@ public class RecruitSystemService {
 
                     if(inputComName != null && !inputComName.trim().isEmpty()) {
                         try {
-                            company = companyDAO1.authenticateCompany(inputComName);
+                            company = companyDAO.authenticateCompany(inputComName);
                             if(company != null) {
                                 acting(company);
                             }
@@ -86,12 +103,8 @@ public class RecruitSystemService {
                     try {
                         System.out.printf("구직자이시군요, 먼저, 이메일을 입력해주세요!\n입력: ");
                         inputUserEmail = scanner.next();
-                    } catch (InputMismatchException e) {
-                        throw new InputMismatchException("String 값만 넣어주세요!");
-                    }
 
-                    try {
-                        System.out.println("다음은, 비밀번호를 입력해주세요.");
+                        System.out.printf("다음은, 비밀번호를 입력해주세요.\n입력: ");
                         inputUserPW = scanner.next();
                     } catch (InputMismatchException e) {
                         throw new InputMismatchException("String 값만 넣어주세요!");
@@ -100,7 +113,7 @@ public class RecruitSystemService {
                     if(inputUserEmail != null && !inputUserEmail.trim().isEmpty() ||
                         inputUserPW != null && !inputUserPW.trim().isEmpty()) {
                         try {
-                            user = userDAO1.authenticateUser(inputUserEmail, inputUserPW);
+                            user = userDAO.authenticateUser(inputUserEmail, inputUserPW);
                             if(user != null) {
                                 acting(user);
                             }
@@ -117,15 +130,15 @@ public class RecruitSystemService {
                     System.err.println("1~3의 정수값만 입력해주세요!");
             }
         }
-    }
+    } // Okay
 
+    // TODO 메서드 만들어야 함
     public void logout() {
 
     }
 
     public void acting(User user) {
-        List<Announce> announceList = new ArrayList<>();
-        System.out.println("안녕하세요! [" + user.getName() + "] 님! 무엇이 필요하신가요?\n1. 전체 공고 조회 / 2. 선택 공고 조회 / 3. 지원서 제출 / 4. 로그아웃\n입력: ");
+        System.out.printf("안녕하세요! [" + user.getName() + "] 님! 무엇이 필요하신가요?\n1. 전체 공고 조회 / 2. 선택 공고 조회 / 3. 지원서 제출 / 4. 로그아웃\n입력: ");
 
         try {
             selected = scanner.nextInt();
@@ -137,52 +150,16 @@ public class RecruitSystemService {
             switch (selected) {
                 case 1:
                     System.out.println("전체 공고를 조회합니다");
-                    try {
-                        announceList = announceDAO.getAllAnnounce();
-                        for (Announce a : announceList) {
-                            System.out.println(a);
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+
                     break;
                 case 2:
-                    try {
-                        System.out.println("어떤 공고를 조회하실 건가요? 먼저 회사 이름을 입력해주세요.\n입력: ");
-                        inputComName = scanner.next();
-                    } catch (InputMismatchException e) {
-                        throw new InputMismatchException("String 값만 입력해주세요!");
-                    }
-
-                    try {
-                        System.out.println("이제 공고 내용에 포함될 단어를 입력해주세요");
-                        inputComContent = scanner.next();
-                    } catch (InputMismatchException e) {
-                        throw new InputMismatchException("String 값만 입력해주세요!");
-                    }
-
-                    try {
-                        announceList = announceDAO.choiceAnnounce(inputComName, inputComContent);
-                        for (Announce a : announceList) {
-                            System.out.println(a);
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("공고를 선택 조회합니다.");
                     break;
                 case 3:
-                    //FIXME 수정해야함
-                    System.out.println("어떤 회사에 지원하실 건가요?\n입력: ");
-                    try {
-                        announceList = announceDAO.getAllAnnounce();
-                        for (Announce a : announceList) {
-                            System.out.println(a);
-                        }
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("원하는 회사에 지원합니다.");
                     break;
                 case 4:
+                    System.out.println("로그아웃 되었습니다.");
                     user = null;
                     start();
                     break;
@@ -193,8 +170,7 @@ public class RecruitSystemService {
     }
 
     public void acting(Company company) {
-        List<Announce> announceList = new ArrayList<>();
-        System.out.println("안녕하세요! [" + company.getName() + "] 님! 무엇이 필요하신가요?\n1. 공고 추가 / 2. 전체 공고 조회 / 3. 공고 삭제 / 4. 로그아웃\n입력: ");
+        System.out.printf("안녕하세요! [" + company.getName() + "] 님! 무엇이 필요하신가요?\n1. 공고 추가 / 2. 전체 공고 조회 / 3. 공고 삭제 / 4. 로그아웃\n입력: ");
 
         try {
             selected = scanner.nextInt();
@@ -205,41 +181,13 @@ public class RecruitSystemService {
         while(true) {
             switch (selected) {
                 case 1:
-                    System.out.println("어떤 공고를 추가하실 건가요?\n입력: ");
-                    // FIXME 수정해야함
-//                    announceDAO;
-//                    try {
-//                        announceList = announceDAO;
-//                        for (Announce a : announceList) {
-//                            System.out.println(a);
-//                        }
-//                    } catch (SQLException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    break;
+
+                    break;
                 case 2:
-                    // FIXME 수정해야함
-                    System.out.println("전체 공고를 조회합니다");
-//                    try {
-//                        announceList = announceDAO;
-//                        for (Announce a : announceList) {
-//                            System.out.println(a);
-//                        }
-//                    } catch (SQLException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    break;
+
+                    break;
                 case 3:
-                    // FIXME 수정해야함
-                    System.out.println("어떤 공고를 삭제하실 건가요?\n입력: ");
-//                    try {
-//                        announceList = announceDAO;
-//                        for (Announce a : announceList) {
-//                            System.out.println(a);
-//                        }
-//                    } catch (SQLException e) {
-//                        throw new RuntimeException(e);
-//                    }
+
                     break;
                 case 4:
                     company = null;
@@ -253,19 +201,21 @@ public class RecruitSystemService {
 
     // ----------------------- 유저 -------------------------
     // 유저 추가하는 기능
-    public void addUser(User user) {
-        if (user.getName() != null && !user.getName().trim().isEmpty() ||
-            user.getEmail() != null && !user.getEmail().trim().isEmpty()) {
+    public void addUser(String name, String email, String address, String password) {
+        if (name != null && !name.trim().isEmpty() ||
+            email != null && !email.trim().isEmpty() ||
+            address != null && !address.trim().isEmpty() ||
+            password != null && !password.trim().isEmpty()) {
 
-            String checkEmail = user.getEmail().substring(user.getEmail().length() - 4);
+            String checkEmail = email.substring(email.length() - 4);
 
             if(!checkEmail.equals(".com")) {
                 throw new RuntimeException("잘못된 이메일 형식입니다.");
             }
 
             try {
-                User user1 = authenticateUser(user.getEmail(), user.getPassword());
-                if (user1 == null) {
+                user = authenticateUser(email, password);
+                if (user == null) {
                     userDAO.addUser(user);
                     System.out.println("회원가입이 완료되었습니다!");
                 }
@@ -280,8 +230,6 @@ public class RecruitSystemService {
 
     // 전체 유저 조회하는 기능
     public List<User> getAllUser() {
-        List<User> userList = null;
-
         try {
             userList = userDAO.getAllUser();
         } catch (SQLException e) {
@@ -293,8 +241,6 @@ public class RecruitSystemService {
 
     // 특정 유저 검색하는 기능
     public List<User> getSelectedUser(String name, String checkAddress) {
-        List<User> userList = null;
-
         try {
             userList = userDAO.getSelectedUser(name, checkAddress);
         } catch (SQLException e) {
@@ -304,13 +250,10 @@ public class RecruitSystemService {
     }
 
     public User authenticateUser(String email, String password) {
-        User user = new User();
-        UserDAO userDAO1 = new UserDAO();
-
         try {
-            user = userDAO1.authenticateUser(email, password);
+            user = userDAO.authenticateUser(email, password);
             if (user == null) {
-                throw new RuntimeException("사용자가 없습니다.");
+                return null;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -320,13 +263,13 @@ public class RecruitSystemService {
 
     // ----------------------- 회사 -------------------------
     // 회사 추가하는 기능
-    public void addCompany(Company company) {
-        if (company.getName() != null && !company.getName().trim().isEmpty() ||
-            company.getAddress() != null && !company.getAddress().trim().isEmpty()) {
+    public void addCompany(String name, String address) {
+        if (name != null && !name.trim().isEmpty() ||
+            address != null && !address.trim().isEmpty()) {
             try {
-                Company company1 = companyDAO.authenticateCompany(company.getName());
-                if(company1 != null) {
-                    companyDAO.addCompany(company);
+                company = companyDAO.authenticateCompany(company.getName());
+                if(company != null) {
+                    companyDAO.addCompany(new Company(0, name, address));
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -336,43 +279,12 @@ public class RecruitSystemService {
 
     // 회사 전부 조회하는 기능
     public List<Company> getAllCompany() {
-        List<Company> companyList = null;
-
         try {
             companyList = companyDAO.getAllCompany();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return companyList;
-    }
-
-    // ------------------ 공고 -----------------------
-    // 공고 추가 하는 기능
-    public void a(Announce announce) {
-        if (announce.getCompany_name() != null && !announce.getCompany_name().trim().isEmpty() ||
-            announce.getAddress() != null && !announce.getAddress().trim().isEmpty() ||
-            announce.getContent() != null && !announce.getContent().trim().isEmpty()) {
-            //sdsadsa
-        }
-    }
-
-    // 공고 전체 조회 하는 기능
-    public List<Announce> b() {
-        List<Announce> announceList = new ArrayList<>();
-
-        return announceList;
-    }
-
-    // 공고 선택 조회 하는 기능
-    public List<Announce> c() {
-        List<Announce> announceList = new ArrayList<>();
-
-        return announceList;
-    }
-
-    // 공고 선택 삭제 하는 기능
-    public void d(String name, String content) {
-
     }
 
     public static void main(String[] args) {
