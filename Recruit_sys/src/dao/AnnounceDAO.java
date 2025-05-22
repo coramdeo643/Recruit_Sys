@@ -13,7 +13,6 @@ public class AnnounceDAO {
     // 공고 추가
     public void addAnnounce(Announce announce) throws SQLException {
         String sql = "INSERT INTO announce (company_name, address, content) VALUES ( ?, ?, ? ) ";
-
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, announce.getCompany_name());
@@ -69,8 +68,8 @@ public class AnnounceDAO {
         return announceList;
     }
 
-    // 회사 이름과, 내용을 값을 받아서 조회 하는 기능
-    public List<Announce> selectApplication(String name, String content) throws SQLException {
+    // 회사 주소로 공고를 조회
+    public List<Announce> selectAnnounceByCompanyAddress(String AnnounceAddress) throws SQLException {
         List<Announce> announceList = new ArrayList<>();
         // SELECT 쿼리
         // Conn, Pstmt, Rs
@@ -79,11 +78,10 @@ public class AnnounceDAO {
         ResultSet resultSet = null;
 
         try {
-            String selectSql = "select * from announce where company_name = ? like content = ? ";
+            String selectSql = "select * from announce where address = ? ";
             connection = DatabaseUtil.getConnection();
             preparedStatement = connection.prepareStatement(selectSql);
-            preparedStatement.setString(1, "company_name");
-            preparedStatement.setString(2, "content");
+            preparedStatement.setString(1, "address");
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -226,7 +224,7 @@ public class AnnounceDAO {
         List<Announce> announceList1 = new ArrayList<>();
 
         try {
-            announceList1 = announceDAO.selectApplication(name, content);
+            announceList1 = announceDAO.selectAnnounceByCompanyAddress("서울특별시 영등포구 여의대로 128");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
