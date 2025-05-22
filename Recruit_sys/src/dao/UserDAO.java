@@ -38,7 +38,7 @@ public class UserDAO {
                 int id = rs.getInt("id");
                 String name = rs.getString("user_name");
                 String email = rs.getString("email");
-                String password = null;
+                String password = "";
                 String address = rs.getString("address").substring(0, 3).trim() + "****";
 
                 userList.add(new User(id, name, email, password, address));
@@ -62,7 +62,7 @@ public class UserDAO {
                 int id = rs.getInt("id");
                 String user_name = rs.getString("user_name");
                 String email = rs.getString("email");
-                String password = null;
+                String password = "";
                 String address = rs.getString("address").substring(0, 3).trim() + "****";
 
                 userList.add(new User(id, user_name, email, password, address));

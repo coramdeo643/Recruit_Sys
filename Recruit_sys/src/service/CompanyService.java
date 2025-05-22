@@ -19,7 +19,7 @@ public class CompanyService {
 
     // 회사 추가하는 기능
     public void addCompany(String name, String address) {
-        if (name != null && !name.trim().isEmpty() ||
+        if (name != null && !name.trim().isEmpty() &&
                 address != null && !address.trim().isEmpty()) {
             try {
                 company = companyDAO.authenticateCompany(company.getName());

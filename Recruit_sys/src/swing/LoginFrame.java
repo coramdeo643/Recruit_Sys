@@ -1,11 +1,16 @@
 package swing;
 
+import dto.User;
+import service.UserService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginFrame extends JFrame implements ActionListener {
+    private final UserService userService = new UserService();
+    static String email;
 
     private JPanel panelA;
     private JLabel idLabel;
@@ -90,12 +95,18 @@ public class LoginFrame extends JFrame implements ActionListener {
         } else if (targetB == userLogin) {
             if (idField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "이메일을 입력해주세요.","",JOptionPane.PLAIN_MESSAGE);
-            } else if (pwField.getText().isEmpty()) {
+            } else if (String.valueOf(pwField.getPassword()).isEmpty()) {
                 JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);
             } else {
                 //TODO
                 // 1. 로그인 기능 연결
-                new AnnounceFrame();
+                email = idField.getText();
+                User user = userService.authenticateUser(email, String.valueOf(pwField.getPassword()));
+                if (user != null) {
+                    new AnnounceFrame();
+                } else {
+                    JOptionPane.showMessageDialog(null, "존재하지 않는 회원입니다.","",JOptionPane.PLAIN_MESSAGE);
+                }
             }
         } else if (targetB == companyCreate) {
             new CompanyCreateFrame();

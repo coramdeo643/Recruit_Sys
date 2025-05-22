@@ -57,6 +57,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
         idLabel.setSize(100,30);
         idLabel.setLocation(50,10);
+        idLabel.setText(LoginFrame.email + "님 환영합니다!");
         topPanel.add(idLabel);
 
         logoutButton.setSize(100,30);

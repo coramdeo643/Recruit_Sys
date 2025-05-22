@@ -113,7 +113,7 @@ public class UserCreateFrame extends JFrame implements ActionListener {
             String pw = textFields[1].getText();
             String name = textFields[2].getText();
             String addr = textFields[3].getText();
-            userService.addUser(name, email, pw, addr);
+            userService.addUser(email, pw, name, addr);
 
             this.dispose();
         } else if (targetB == idCheckButton) {

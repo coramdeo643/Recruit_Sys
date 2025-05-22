@@ -24,22 +24,32 @@ public class UserService {
 
     // ----------------------- 유저 -------------------------
     // 유저 추가하는 기능
-    public void addUser(String name, String email, String address, String password) {
-        if (name != null && !name.trim().isEmpty() ||
-                email != null && !email.trim().isEmpty() ||
-                address != null && !address.trim().isEmpty() ||
-                password != null && !password.trim().isEmpty()) {
+    public void addUser(String email, String password, String name, String address) {
+        if (email != null && !email.trim().isEmpty() &&
+            password != null && !password.trim().isEmpty() &&
+            name != null && !name.trim().isEmpty() &&
+            address != null && !address.trim().isEmpty()) {
 
-            String checkEmail = email.substring(email.length() - 4);
+            String checkEmail = "";
+            try {
+                checkEmail = email.substring(email.length() - 4);
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new RuntimeException("이메일치고는 너무 짧은것 같아요...");
+            }
 
             if (!checkEmail.equals(".com")) {
                 throw new RuntimeException("잘못된 이메일 형식입니다.");
             }
 
+            if(address != null && address.length() < 4) {
+                System.out.println(address.length());
+                throw new RuntimeException("3글자 이하의 주소는 입력할 수 없습니다.");
+            }
+
             try {
                 user = authenticateUser(email, password);
                 if (user == null) {
-                    userDAO.addUser(new User(0, name, email, address, password));
+                    userDAO.addUser(new User(0, name, email, password,address));
                     System.out.println("회원가입이 완료되었습니다!");
                 }
             } catch (SQLException e) {
@@ -48,6 +58,8 @@ public class UserService {
                 System.err.println("회원가입을 할 수 없습니다");
                 throw new RuntimeException(e);
             }
+        } else {
+            throw new RuntimeException("뭔가 잘못됐어요... 올바르게 입력해주세요.");
         }
     }
 
