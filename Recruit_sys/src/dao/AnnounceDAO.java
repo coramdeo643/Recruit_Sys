@@ -122,9 +122,9 @@ public class AnnounceDAO {
 //        List<Announce> announceList = new ArrayList<>();
 //        // try() {} catch(E . e) {} <-- 자동 리소스 닫아 주는 기능
 //        // try {} catch (E . e) {}
-        Connection connection = null;
         PreparedStatement preparedStatement = null;
         int resultSet1 = 0;
+        Connection connection = DatabaseUtil.getConnection();
 
         try {
             connection.setAutoCommit(false);
