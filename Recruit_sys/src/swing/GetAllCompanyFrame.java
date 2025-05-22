@@ -57,7 +57,9 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
         idLabel.setSize(100,30);
         idLabel.setLocation(50,10);
-        idLabel.setText(LoginFrame.email + "님 환영합니다!");
+        if (LoginFrame.email != null) {
+            idLabel.setText(LoginFrame.email + "님 환영합니다!");
+        }
         topPanel.add(idLabel);
 
         logoutButton.setSize(100,30);
@@ -109,6 +111,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
         if (targetB == logoutButton) {
+            new LoginFrame();
             this.dispose();
         } else if (targetB == userListButton) {
             new GetAllUserFrame();

@@ -24,10 +24,6 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JButton userCreate;
     private JButton companyCreate;
 
-    //TODO
-    // 1. 유저 검색 기능 (이름 + 주소)
-    // 1-1 유저 목록에서 검색 필드 + 검색 버튼 추가.
-
     public LoginFrame() {
         initData();
         setInitLayout();
@@ -104,8 +100,9 @@ public class LoginFrame extends JFrame implements ActionListener {
                 User user = userService.authenticateUser(email, String.valueOf(pwField.getPassword()));
                 if (user != null) {
                     new AnnounceFrame();
+                    this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "존재하지 않는 회원입니다.","",JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "존재하지 않는 회원입니다.","로그인 오류",JOptionPane.PLAIN_MESSAGE);
                 }
             }
         } else if (targetB == companyCreate) {

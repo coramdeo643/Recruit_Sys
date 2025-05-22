@@ -22,6 +22,10 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
 
     private JPanel mainPanel;
 
+    //TODO
+    // 1. 유저 검색 기능 (이름 + 주소)
+    // 1-1 유저 목록에서 검색 필드 + 검색 버튼 추가.
+
     public GetAllUserFrame() {
         initData();
         setInitLayout();
@@ -57,7 +61,9 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
 
         idLabel.setSize(100,30);
         idLabel.setLocation(50,10);
-        idLabel.setText(LoginFrame.email + "님 환영합니다!");
+        if (LoginFrame.email != null) {
+            idLabel.setText(LoginFrame.email + "님 환영합니다!");
+        }
         topPanel.add(idLabel);
 
         logoutButton.setSize(100,30);
@@ -108,6 +114,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
         if (targetB == logoutButton) {
+            new LoginFrame();
             this.dispose();
         } else if (targetB == companyListButton) {
             new GetAllCompanyFrame();
