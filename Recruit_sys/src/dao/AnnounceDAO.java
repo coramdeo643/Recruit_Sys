@@ -129,7 +129,7 @@ public class AnnounceDAO {
         int resultSet1 = 0;
 
         try {
-            connection.setAutoCommit();
+            connection.setAutoCommit(false);
             String deleteSql = " delete from announce where company_name = ? and content like ? ";
             connection = DatabaseUtil.getConnection();
             preparedStatement = connection.prepareStatement(deleteSql);
