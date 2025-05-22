@@ -1,7 +1,7 @@
 package swing;
 
 import dto.User;
-import service.RecruitSystemService;
+import service.UserService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GetAllUserFrame extends JFrame implements ActionListener {
 
-    private final RecruitSystemService recruitSystemService = new RecruitSystemService();
+    private final UserService userService = new UserService();
     private JPanel topPanel;
     private JLabel idLabel;
     private JButton logoutButton;
@@ -80,7 +80,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
 
-        List<User> sampleList = recruitSystemService.getAllUser();
+        List<User> sampleList = userService.getAllUser();
         DefaultListModel<User> listModel = new DefaultListModel<>();
         for (User post : sampleList) {
             listModel.addElement(post);

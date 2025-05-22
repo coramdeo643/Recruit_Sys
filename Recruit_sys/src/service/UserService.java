@@ -1,0 +1,87 @@
+package service;
+
+import dto.*;
+import dao.*;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserService {
+    // 기본 변수
+    /// 유저 변수
+    private User user = new User();
+    private UserDAO userDAO = new UserDAO();
+    private List<User> userList = new ArrayList<>();
+
+    public void start() {
+
+    }
+
+    public void login() {
+
+    }
+
+    // ----------------------- 유저 -------------------------
+    // 유저 추가하는 기능
+    public void addUser(String name, String email, String address, String password) {
+        if (name != null && !name.trim().isEmpty() ||
+                email != null && !email.trim().isEmpty() ||
+                address != null && !address.trim().isEmpty() ||
+                password != null && !password.trim().isEmpty()) {
+
+            String checkEmail = email.substring(email.length() - 4);
+
+            if (!checkEmail.equals(".com")) {
+                throw new RuntimeException("잘못된 이메일 형식입니다.");
+            }
+
+            try {
+                user = authenticateUser(email, password);
+                if (user == null) {
+                    userDAO.addUser(new User(0, name, email, address, password));
+                    System.out.println("회원가입이 완료되었습니다!");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (Exception e) {
+                System.err.println("회원가입을 할 수 없습니다");
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    // 전체 유저 조회하는 기능
+    public List<User> getAllUser() {
+        try {
+            userList = userDAO.getAllUser();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return userList;
+    }
+
+    // 특정 유저 검색하는 기능
+    public List<User> getSelectedUser(String name, String checkAddress) {
+        try {
+            userList = userDAO.getSelectedUser(name, checkAddress);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return userList;
+    }
+
+    // 인증 - 유저 추가랑 연계
+    public User authenticateUser(String email, String password) {
+        try {
+            user = userDAO.authenticateUser(email, password);
+            if (user == null) {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return user;
+    }
+}

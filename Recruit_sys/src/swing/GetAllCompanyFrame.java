@@ -1,7 +1,7 @@
 package swing;
 
 import dto.Company;
-import service.RecruitSystemService;
+import service.CompanyService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
-    private final RecruitSystemService recruitSystemService = new RecruitSystemService();
+    private final CompanyService companyService = new CompanyService();
     private JPanel topPanel;
     private JLabel idLabel;
     private JButton logoutButton;
@@ -80,7 +80,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
 
-        List<Company> sampleList = recruitSystemService.getAllCompany();
+        List<Company> sampleList = companyService.getAllCompany();
         DefaultListModel<Company> listModel = new DefaultListModel<>();
         for (Company post : sampleList) {
             listModel.addElement(post);

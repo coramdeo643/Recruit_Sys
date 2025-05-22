@@ -1,7 +1,7 @@
 package swing;
 
 import dao.CompanyDAO;
-import service.RecruitSystemService;
+import service.CompanyService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class CompanyCreateFrame extends JFrame implements ActionListener {
 
-    private final RecruitSystemService recruitSystemService = new RecruitSystemService();
+    private final CompanyService companyService = new CompanyService();
 
     private JPanel panelA;
     private JLabel nameLabel;
@@ -86,7 +86,7 @@ public class CompanyCreateFrame extends JFrame implements ActionListener {
         if(targetB == companyCreateButton){
             String name = textFields[0].getText();
             String addr = textFields[1].getText();
-            recruitSystemService.addCompany(name, addr);
+            companyService.addCompany(name, addr);
 
         }
 
