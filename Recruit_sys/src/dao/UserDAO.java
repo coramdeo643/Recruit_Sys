@@ -79,7 +79,7 @@ public class UserDAO {
         try(Connection conn = DatabaseUtil.getConnection();) {
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
             pstmt.setString(1, email);
-            pstmt.setString(1, password);
+            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
             if(rs.next()) {
