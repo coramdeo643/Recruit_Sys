@@ -1,19 +1,21 @@
 package swing;
 
 import dao.UserDAO;
+import dto.User;
+import service.RecruitSystemService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class UserCreateFrame extends JFrame implements ActionListener, MouseListener {
+public class UserCreateFrame extends JFrame implements ActionListener {
+
+    private final RecruitSystemService recruitSystemService = new RecruitSystemService();
 
     private JPanel panelA;
     private JLabel idLabel;
-    private JTextField idField;
+    private JTextField emailField;
     private JButton idCheckButton;
     private JLabel pwLabel;
     private JPasswordField pwField;
@@ -25,7 +27,7 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
     private JPanel panelB;
     private JButton userCreateButton;
 
-    private JTextField[] textFields = new JTextField[3];
+    private final JTextField[] textFields = new JTextField[5];
 
     public UserCreateFrame() {
         initData();
@@ -40,7 +42,7 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
 
         panelA = new JPanel();
         idLabel = new JLabel("이  메  일");
-        idField = new JTextField(10);
+        emailField = new JTextField(10);
         idCheckButton = new JButton("중복확인");
         pwLabel = new JLabel("비밀번호");
         pwField = new JPasswordField(10);
@@ -52,6 +54,15 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
         panelB = new JPanel();
         userCreateButton = new JButton("회원등록");
 
+        textFields[0] = emailField;
+        textFields[1] = pwField;
+        textFields[2] = nameField; 
+        textFields[3] = addrField;
+
+//        String email = textFields[0].getText();
+//        String pw = textFields[1].getText();
+//        String name = textFields[2].getText();
+//        String addr = textFields[3].getText();
     }
 
     private void setInitLayout() {
@@ -66,7 +77,7 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
         add(panelA);
 
         panelA.add(idLabel);
-        panelA.add(idField);
+        panelA.add(emailField);
         idCheckButton.setSize(90, 30);
         idCheckButton.setLocation(250, 50);
         add(idCheckButton);
@@ -96,13 +107,18 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
-        int result = 0;
 
         if (targetB == userCreateButton) {
-            String id;
+            String email = textFields[0].getText();
+            String pw = textFields[1].getText();
+            String name = textFields[2].getText();
+            String addr = textFields[3].getText();
+            User user = new User(0,name,email,pw,addr);
+            recruitSystemService.addUser(user);
+
             this.dispose();
         } else if (targetB == idCheckButton) {
-            if (idField.getText().isEmpty()) {
+            if (emailField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog
                         (null,"입력된 값이 없어요. 아이디를 입력해주세요.",
                                 "중복확인", JOptionPane.PLAIN_MESSAGE);
@@ -111,31 +127,6 @@ public class UserCreateFrame extends JFrame implements ActionListener, MouseList
             UserDAO userDAO = new UserDAO();
 
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 
     public static void main(String[] args) {
