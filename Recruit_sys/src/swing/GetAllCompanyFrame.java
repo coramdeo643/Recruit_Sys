@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetAllCompanyFrame extends JFrame implements ActionListener {
@@ -16,8 +15,10 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
     private JPanel topPanel;
     private JLabel idLabel;
     private JButton logoutButton;
-    private JButton listButton;
-    private JButton myPageButton;
+
+    private JButton jobListButton;
+    private JButton userListButton;
+    private JButton companyListButton;
 
     private JPanel mainPanel;
 
@@ -35,8 +36,9 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         topPanel = new JPanel();
         idLabel = new JLabel("사용자이메일@email.com");
         logoutButton = new JButton("로그아웃");
-        listButton = new JButton("채용공고 목록");
-        myPageButton = new JButton("회사 목록");
+        jobListButton = new JButton("채용공고 목록");
+        userListButton = new JButton("유저 목록");
+        companyListButton = new JButton("회사 목록");
 
         mainPanel = new JPanel();
     }
@@ -61,15 +63,19 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         logoutButton.setLocation(200,20);
         topPanel.add(logoutButton);
 
-        listButton.setSize(100,30);
-        listButton.setLocation(100,10);
-        topPanel.add(listButton);
+        jobListButton.setSize(100,30);
+        jobListButton.setLocation(100,10);
+        topPanel.add(jobListButton);
 
-        myPageButton.setSize(100,30);
-        myPageButton.setLocation(150,10);
-        topPanel.add(myPageButton);
+        userListButton.setSize(100,30);
+        userListButton.setLocation(100,10);
+        topPanel.add(userListButton);
 
-        mainPanel.setLocation(0, 100);
+        companyListButton.setSize(100,30);
+        companyListButton.setLocation(150,10);
+        topPanel.add(companyListButton);
+
+        mainPanel.setLocation(0, 150);
         mainPanel.setSize(800,350);
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
@@ -93,14 +99,20 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
     private void addEventListener() {
         logoutButton.addActionListener(this);
-        listButton.addActionListener(this);
-        myPageButton.addActionListener(this);
+        jobListButton.addActionListener(this);
+        userListButton.addActionListener(this);
+        companyListButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
         if (targetB == logoutButton) {
+            this.dispose();
+        } else if (targetB == userListButton) {
+            // new GetAllUserFrame();
+        } else if (targetB == jobListButton) {
+            new AnnounceFrame();
             this.dispose();
         }
     }
