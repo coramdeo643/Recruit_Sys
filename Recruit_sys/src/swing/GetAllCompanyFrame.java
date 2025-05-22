@@ -110,7 +110,8 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         if (targetB == logoutButton) {
             this.dispose();
         } else if (targetB == userListButton) {
-            // new GetAllUserFrame();
+            new GetAllUserFrame();
+            this.dispose();
         } else if (targetB == jobListButton) {
             new AnnounceFrame();
             this.dispose();
