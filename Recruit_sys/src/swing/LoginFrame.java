@@ -19,11 +19,9 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JButton userCreate;
     private JButton companyCreate;
 
-//    private JButton userList;
-//    private JButton companyList;
-//    private JButton announceCreate;
-//    private JButton announceApply;
-//    private JButton announceList;
+    //TODO
+    // 1. 유저 검색 기능 (이름 + 주소)
+    // 1-1 유저 목록에서 검색 필드 + 검색 버튼 추가.
 
     public LoginFrame() {
         initData();
@@ -95,6 +93,8 @@ public class LoginFrame extends JFrame implements ActionListener {
             } else if (pwField.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);
             } else {
+                //TODO
+                // 1. 로그인 기능 연결
                 new AnnounceFrame();
             }
         } else if (targetB == companyCreate) {
