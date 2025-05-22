@@ -40,7 +40,7 @@ public class AnnounceService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return getAllAnnounce();
+        return announceList;
     }
 
     // 공고 선택 조회 서비스
@@ -55,7 +55,7 @@ public class AnnounceService {
                 content == null || content.trim().isEmpty()) {
             throw new SQLException("올바른 공고 이름과 공고 내용을 선택 해주세요");
         }
-        return announceDAO.choiceAnnounce(name, content);
+        return announceList;
     }
 
     // 회사 주소로 공고 조회
@@ -69,7 +69,7 @@ public class AnnounceService {
         if (Address == null || Address.trim().isEmpty()) {
             throw  new SQLException("올바른 주소를 입력 해주세요");
         }
-        return announceDAO.selectAnnounceByCompanyAddress(Address);
+        return announceList;
     }
 
     // 공고 선택 삭제 서비스
