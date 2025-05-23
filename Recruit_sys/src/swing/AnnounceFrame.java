@@ -4,17 +4,27 @@ import dto.Announce;
 import service.AnnounceService;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnnounceFrame extends JFrame implements ActionListener {
 
     private final AnnounceService announceService = new AnnounceService();
     private JPanel topPanel;
-    private JPanel subPanel;
-    private JLabel idLabel;
+    private JPanel subPanel1;
+    private JPanel subPanel2;
+    private JLabel idLabel1;
+    private JLabel idLabel2;
+    private JLabel idLabel3;
+    private JLabel idLabel4;
+    private JTextField inputComName;
+    private JTextField inputContent;
+    private JTextField inputAddress;
     private JButton logoutButton;
 
     private JButton jobListButton;
@@ -22,6 +32,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
     private JButton companyListButton;
 
     private JPanel mainPanel;
+
 
 
     //TODO
@@ -44,12 +55,19 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
     private void initData() {
         setTitle("채용공고 목록");
-        setSize(800,600);
+        setSize(800, 520);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         topPanel = new JPanel();
-        subPanel = new JPanel();
-        idLabel = new JLabel("사용자이메일@email.com");
+        subPanel1 = new JPanel();
+        subPanel2 = new JPanel();
+        idLabel1 = new JLabel("사용자이메일@email.com");
+        idLabel2 = new JLabel("공고 이름");
+        idLabel3 = new JLabel("주소");
+        idLabel4 = new JLabel("공고 내용");
+        inputComName = new JTextField(10);
+        inputContent = new JTextField(10);
+        inputAddress = new JTextField(10);
         logoutButton = new JButton("로그아웃");
         jobListButton = new JButton("채용공고 목록");
         userListButton = new JButton("유저 목록");
@@ -57,6 +75,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         companyInsertButton = new JButton("공고 추가");
         companySearchButton = new JButton("공고 검색");
         companyDeleteButton = new JButton("공고 삭제");
+
 
         mainPanel = new JPanel();
     }
@@ -67,55 +86,89 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.gray);
 
-        topPanel.setLocation(0,0);
-        topPanel.setSize(800,50);
+        topPanel.setLocation(0, 0);
+        topPanel.setSize(800, 50);
         topPanel.setBackground(Color.PINK);
         //topPanel.setLayout(null);
         add(topPanel);
 
-        subPanel.setLocation(0,50);
-        subPanel.setSize(800, 100);
-        subPanel.setBackground(Color.WHITE);
-        add(subPanel);
+        subPanel1.setLocation(0, 50);
+        subPanel1.setSize(800, 50);
+        subPanel1.setBackground(Color.WHITE);
+        add(subPanel1);
 
-        idLabel.setSize(100,30);
-        idLabel.setLocation(10,10);
+        subPanel2.setLocation(0, 100);
+        subPanel2.setSize(800, 50);
+        subPanel2.setBackground(Color.ORANGE);
+        subPanel2.setLayout(null);
+        add(subPanel2);
+
+        idLabel1.setSize(100, 30);
+        idLabel1.setLocation(10, 10);
         if (LoginFrame.email != null) {
-            idLabel.setText(LoginFrame.email + "님 환영합니다!");
+            idLabel1.setText(LoginFrame.email + "님 환영합니다!");
         }
-        topPanel.add(idLabel);
+        topPanel.add(idLabel1);
 
-        logoutButton.setSize(100,30);
-        logoutButton.setLocation(200,20);
+        idLabel2.setSize(100,30);
+        idLabel2.setLocation(130,10);
+        subPanel2.add(idLabel2);
+
+        idLabel3.setSize(100,30);
+        idLabel3.setLocation(320,10);
+        subPanel2.add(idLabel3);
+
+        idLabel4.setSize(100,30);
+        idLabel4.setLocation(470,10);
+        subPanel2.add(idLabel4);
+
+        subPanel2.add(inputComName);
+        inputComName.setSize(90,30);
+        inputComName.setLocation(200,10);
+
+        subPanel2.add(inputContent);
+        inputContent.setSize(90,30);
+        inputContent.setLocation(360,10);
+
+        subPanel2.add(inputAddress);
+        inputAddress.setSize(90,30);
+        inputAddress.setLocation(530,10);
+
+        logoutButton.setSize(100, 30);
+        logoutButton.setLocation(200, 20);
         topPanel.add(logoutButton);
 
-        jobListButton.setSize(100,30);
-        jobListButton.setLocation(100,10);
+        jobListButton.setSize(100, 30);
+        jobListButton.setLocation(100, 10);
         topPanel.add(jobListButton);
 
-        userListButton.setSize(100,30);
-        userListButton.setLocation(100,10);
+        userListButton.setSize(100, 30);
+        userListButton.setLocation(100, 10);
         topPanel.add(userListButton);
 
-        companyListButton.setSize(100,30);
-        companyListButton.setLocation(150,10);
+        companyListButton.setSize(100, 30);
+        companyListButton.setLocation(150, 10);
         topPanel.add(companyListButton);
 
-        companyInsertButton.setSize(100,30);
-        companyInsertButton.setLocation(150,10);
-        subPanel.add(companyInsertButton);
+        companyInsertButton.setSize(100, 30);
+        companyInsertButton.setLocation(150, 10);
+        subPanel1.add(companyInsertButton);
 
-        companySearchButton.setSize(100,30);
-        companySearchButton.setLocation(150,10);
-        subPanel.add(companySearchButton);
+        companySearchButton.setSize(100, 30);
+        companySearchButton.setLocation(150, 10);
+        subPanel1.add(companySearchButton);
 
-        companyDeleteButton.setSize(100,30);
-        companyDeleteButton.setLocation(150,10);
-        subPanel.add(companyDeleteButton);
+        companyDeleteButton.setSize(100, 30);
+        companyDeleteButton.setLocation(150, 10);
+        subPanel1.add(companyDeleteButton);
+
+
+
+
 
 
         mainPanel.setLocation(0, 150);
-        mainPanel.setSize(800,350);
+        mainPanel.setSize(800, 350);
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
 
@@ -148,6 +201,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
 
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
@@ -171,8 +225,8 @@ public class AnnounceFrame extends JFrame implements ActionListener {
             this.dispose();
         }
     }
+        public static void main (String[]args){
+            new AnnounceFrame();
 
-    public static void main(String[] args) {
-        new AnnounceFrame();
+        }
     }
-}
