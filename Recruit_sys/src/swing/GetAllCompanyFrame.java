@@ -19,6 +19,9 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
     private JButton jobListButton;
     private JButton userListButton;
     private JButton companyListButton;
+    private JButton companyAddButton;
+    private JButton companyDeleteButton;
+    private JButton companySearchButton;
 
     private JPanel mainPanel;
 
@@ -39,6 +42,10 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         jobListButton = new JButton("채용공고 목록");
         userListButton = new JButton("유저 목록");
         companyListButton = new JButton("회사 목록");
+        companyAddButton = new JButton("회사 추가");
+        companyDeleteButton = new JButton("회사 삭제");
+        companySearchButton = new JButton("회사 검색");
+
 
         mainPanel = new JPanel();
     }
@@ -77,6 +84,15 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         companyListButton.setSize(100,30);
         companyListButton.setLocation(150,10);
         topPanel.add(companyListButton);
+
+        companyListButton.setSize(100,30);
+        companyListButton.setLocation(150,10);
+        topPanel.add(companyListButton);
+
+        companyListButton.setSize(100,30);
+        companyListButton.setLocation(150,10);
+        topPanel.add(companyListButton);
+
 
         mainPanel.setLocation(0, 150);
         mainPanel.setSize(800,350);
