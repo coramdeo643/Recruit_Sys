@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class LoginFrame extends JFrame implements ActionListener {
     private final UserService userService = new UserService();
@@ -81,6 +83,15 @@ public class LoginFrame extends JFrame implements ActionListener {
         userCreate.addActionListener(this);
         companyCreate.addActionListener(this);
         userLogin.addActionListener(this);
+        pwField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    userLogin.doClick();
+                    pwField.transferFocus(); // 연속으로 클릭되는 걸 막기 위해 포커스 이동
+                }
+            }
+        });
     }
 
     @Override
