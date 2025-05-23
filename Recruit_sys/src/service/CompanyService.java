@@ -23,7 +23,7 @@ public class CompanyService {
                 address != null && !address.trim().isEmpty()) {
             try {
                 company = companyDAO.authenticateCompany(company.getName());
-                if(company == null) {
+                if (company == null) {
                     companyDAO.addCompany(new Company(0, name, address));
                     System.out.println("회사 등록이 완료되었습니다!");
                 }
@@ -40,6 +40,16 @@ public class CompanyService {
     public List<Company> getAllCompany() {
         try {
             companyList = companyDAO.getAllCompany();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return companyList;
+    }
+
+    // 회사 선택 조회하는 기능
+    public List<Company> getSelectedCompany(String name, String address1) throws SQLException {
+        try {
+            companyList = companyDAO.getSelectedCompany(name, address1);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
