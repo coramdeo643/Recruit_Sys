@@ -15,7 +15,7 @@ public class AnnounceDAO {
         String sql = "INSERT INTO announce (company_name, address, content) VALUES ( ?, ?, ? ) ";
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, announce.getCompany_name());
+            preparedStatement.setString(1, announce.getCompanyName());
             preparedStatement.setString(2, announce.getAddress());
             preparedStatement.setString(3, announce.getContent());
             preparedStatement.executeUpdate();

@@ -233,12 +233,37 @@ public class AnnounceFrame extends JFrame implements ActionListener {
                 scrollPane.add(announceJList);
             }
         } else if (targetB == companySearchButton) {
-
+            if (!inputComName.getText().trim().isEmpty() || !Boolean.parseBoolean(inputAddress.getText().trim()) ||
+                    !inputContent.getText().trim().isEmpty()) {
+                try {
+                    announceService.choiceAnnounce(inputComName.getText(), inputContent.getText());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                announceDefaultListModel.removeAllElements();
+                for (Announce announce : announceList) {
+                    announceDefaultListModel.addElement(announce);
+                }
+                announceJList = new JList<>();
+                scrollPane.add(announceJList);
+            }
         } else if (targetB == companyDeleteButton) {
+            if (inputComName.getText().trim().isEmpty() || inputAddress.getText().trim().isEmpty() ||
+            inputContent.getText().trim().isEmpty()); {
+                try {
+                    announceService.deleteApplication(inputComName.getText(), inputContent.getText());
 
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                announceDefaultListModel.removeAllElements();
+                for (Announce announce : announceList) {
+                    announceDefaultListModel.addElement(announce);
+                }
+                announceJList = new JList<>();
+                scrollPane.add(announceJList);
+            }
         }
-
-
 
     }
         public static void main (String[]args){
