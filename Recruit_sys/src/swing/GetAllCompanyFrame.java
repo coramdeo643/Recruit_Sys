@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +140,25 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         userListButton.addActionListener(this);
         companyListButton.addActionListener(this);
         checkButton.addActionListener(this);
+        name.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    checkButton.doClick();
+                    name.transferFocus(); // 연속으로 클릭되는 걸 막기 위해 포커스 이동
+                }
+            }
+        });
+
+        address.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    checkButton.doClick();
+                    address.transferFocus(); // 연속으로 클릭되는 걸 막기 위해 포커스 이동
+                }
+            }
+        });
     }
 
     @Override

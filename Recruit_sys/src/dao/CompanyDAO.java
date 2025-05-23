@@ -48,11 +48,11 @@ public class CompanyDAO {
     // 회사 선택 조회
     public List<Company> getSelectedCompany(String name, String address1) throws SQLException {
         List<Company> companyList = new ArrayList<>();
-        String sql = "select * from company where company_name = ? and address like ? ";
+        String sql = "select * from company where company_name like ? and address like ? ";
 
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
+            pstmt.setString(1, "%" + name + "%");
             pstmt.setString(2, "%" + address1 + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
