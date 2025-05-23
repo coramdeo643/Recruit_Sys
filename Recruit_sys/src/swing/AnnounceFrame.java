@@ -31,6 +31,9 @@ public class AnnounceFrame extends JFrame implements ActionListener {
     // 2. 채용공고 삭제 버튼 > delete 기능 연결
     private JButton companyDeleteButton;
 
+    // 3. 채용공고 검색 > 검색 필드JField + 검색 버튼 JButton
+    private JButton companySearchButton;
+
 
 
     public AnnounceFrame() {
@@ -52,6 +55,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         userListButton = new JButton("유저 목록");
         companyListButton = new JButton("회사 목록");
         companyInsertButton = new JButton("공고 추가");
+        companySearchButton = new JButton("공고 검색");
         companyDeleteButton = new JButton("공고 삭제");
 
         mainPanel = new JPanel();
@@ -98,12 +102,17 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         topPanel.add(companyListButton);
 
         companyInsertButton.setSize(100,30);
-        companyInsertButton.setLocation(150,50);
+        companyInsertButton.setLocation(150,10);
         subPanel.add(companyInsertButton);
 
+        companySearchButton.setSize(100,30);
+        companySearchButton.setLocation(150,10);
+        subPanel.add(companySearchButton);
+
         companyDeleteButton.setSize(100,30);
-        companyDeleteButton.setLocation(150,50);
+        companyDeleteButton.setLocation(150,10);
         subPanel.add(companyDeleteButton);
+
 
         mainPanel.setLocation(0, 150);
         mainPanel.setSize(800,350);
@@ -132,7 +141,9 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         userListButton.addActionListener(this);
         companyListButton.addActionListener(this);
         companyInsertButton.addActionListener(this);
+        companySearchButton.addActionListener(this);
         companyDeleteButton.addActionListener(this);
+
     }
 
 
@@ -150,6 +161,9 @@ public class AnnounceFrame extends JFrame implements ActionListener {
             new GetAllCompanyFrame();
             this.dispose();
         } else if (targetB == companyInsertButton) {
+            new GetAllCompanyFrame();
+            this.dispose();
+        } else if (targetB == companySearchButton) {
             new GetAllCompanyFrame();
             this.dispose();
         } else if (targetB == companyDeleteButton) {
