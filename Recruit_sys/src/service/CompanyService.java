@@ -47,11 +47,10 @@ public class CompanyService {
     }
 
     // 회사 선택 조회하는 기능
-    public List<Company> getSelectedCompany(String name, String address1) throws SQLException {
+    public List<Company> getSelectedCompany(String name, String address) {
         try {
-            companyList = companyDAO.getSelectedCompany(name, address1);
+            companyList = companyDAO.getSelectedCompany(name, address);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
         return companyList;
     }

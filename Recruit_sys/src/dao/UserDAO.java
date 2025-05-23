@@ -47,7 +47,7 @@ public class UserDAO {
         return userList;
     }
 
-    // 선택 유저 조회 --> 회사가 넘겨받아서 사용할 메서드git
+    // 선택 유저 조회 --> 회사가 넘겨받아서 사용할 메서드
     public List<User> getSelectedUser(String name, String checkAddress) throws SQLException {
         List<User> userList = new ArrayList<>();
         String selectUserSql = "select id, user_name, email, address from user where user_name like ? and address like ? ";

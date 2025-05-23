@@ -15,7 +15,7 @@ public class AnnounceDAO {
         String sql = "INSERT INTO announce (company_name, address, content) VALUES ( ?, ?, ? ) ";
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, announce.getCompanyName());
+            preparedStatement.setString(1, announce.getCompany_name());
             preparedStatement.setString(2, announce.getAddress());
             preparedStatement.setString(3, announce.getContent());
             preparedStatement.executeUpdate();
@@ -31,13 +31,14 @@ public class AnnounceDAO {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int user_id = resultSet.getInt("user_id");
-                int company_id = resultSet.getInt("company_id");
+                int userId = resultSet.getInt("user_id");
+                int companyId = resultSet.getInt("company_id");
                 String companyName = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-                announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
+
+                announceList.add(new Announce(companyName, address, content));
             }
         }
         return announceList;
@@ -54,13 +55,14 @@ public class AnnounceDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int user_id = resultSet.getInt("user_id");
-                int company_id = resultSet.getInt("company_id");
+                int userId = resultSet.getInt("user_id");
+                int companyId = resultSet.getInt("company_id");
                 String companyName = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-                announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
+
+                announceList.add(new Announce(companyName, address, content));
             }
         }
         return announceList;
@@ -69,9 +71,12 @@ public class AnnounceDAO {
     // 회사 주소로 공고를 조회
     public List<Announce> selectAnnounceByCompanyAddress(String AnnounceAddress) throws SQLException {
         List<Announce> announceList = new ArrayList<>();
+        // SELECT 쿼리
+        // Conn, Pstmt, Rs
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+
         try {
             String selectSql = "select * from announce where address = ? ";
             connection = DatabaseUtil.getConnection();
@@ -81,13 +86,13 @@ public class AnnounceDAO {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int user_id = resultSet.getInt("user_id");
-                int company_id = resultSet.getInt("company_id");
+                int userId = resultSet.getInt("user_id");
+                int companyId = resultSet.getInt("company_id");
                 String name1 = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String contents = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-                announceList.add(new Announce(id, user_id, company_id, name1, address, contents, available));
+                announceList.add(new Announce(name1, address, contents));
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -111,9 +116,16 @@ public class AnnounceDAO {
 
     // 공고 삭제
     public int deleteApplication(String name, String content) throws SQLException {
+        // 해당 id를 받아서 삭제 쿼리 실행
+        // 자동 삭제하기
+
+//        List<Announce> announceList = new ArrayList<>();
+//        // try() {} catch(E . e) {} <-- 자동 리소스 닫아 주는 기능
+//        // try {} catch (E . e) {}
         PreparedStatement preparedStatement = null;
         int resultSet1 = 0;
         Connection connection = DatabaseUtil.getConnection();
+
         try {
             connection.setAutoCommit(false);
             String deleteSql = " delete from announce where company_name = ? and content like ? ";
@@ -149,62 +161,28 @@ public class AnnounceDAO {
         String name = scanner.next();
         String content = scanner.next();
         scanner.close();
+
         AnnounceDAO announceDAO = new AnnounceDAO();
         List<Announce> announceList1 = new ArrayList<>();
+
         try {
             announceList1 = announceDAO.selectAnnounceByCompanyAddress("서울특별시 영등포구 여의대로 128");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         for (int i = 0; i < announceList1.size(); i++) {
             System.out.println(announceList1.get(i));
         }
+
         System.out.println("&&건이 조회 되었습니다");
+
         List<Announce> announceList = new ArrayList<>();
         int test = announceDAO.deleteApplication("카카오", "모집");
         announceList = announceDAO.getAllAnnounce();
+
         for(Announce a : announceList) {
             System.out.println(a);
         }
-
-        // 공고 추가 테스트
-        // 1. 광고 DAO 메모리 올리기
-        // 2. 광고 추가 기능 테스트 (DB 조회)
-
-        //        AnnounceDAO announceDAO = new AnnounceDAO();
-        //        Announce announce = new Announce(1, "네이버", "경기도 성남시 분당구 불정로 6", "흑흑", 1);
-        //        announceDAO.addAnnounce(announce);
-
-
-        // 공고 전체 조회 테스트1
-        //        AnnounceDAO announceDAO1 = new AnnounceDAO();
-        //        List<Announce> announceList = new ArrayList<>();
-        //        try {
-        //            announceList = announceDAO1.getAllAnnounce();
-        //        } catch (SQLException e) {
-        //            throw new RuntimeException(e);
-        //        }
-        //
-        //        for (int i = 0; i < announceList.size(); i++) {
-        //            System.out.println(announceList.get(i));
-        //        }
-        //    }
-
-        // 공고 선택 조회
-        //        AnnounceDAO announceDAO = new AnnounceDAO();
-        //        List<Announce> announceList1 = new ArrayList<>();
-        //        try {
-        //            announceList1 = announceDAO.choiceAnnounce("삼성전자", "모집");
-        //        } catch (SQLException e) {
-        //            throw new RuntimeException(e);
-        //        }
-        //        for (int i = 0; i < announceList1.size(); i++) {
-        //            System.out.println(announceList1.get(i));
-        //
-        //        }
-        //
-        //
-
-
     }
 }

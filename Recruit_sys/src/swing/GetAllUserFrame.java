@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
 
     private void initData() {
         setTitle("사용자 목록");
-        setSize(800,600);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         topPanel = new JPanel();
@@ -67,33 +69,33 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.gray);
 
-        topPanel.setLocation(0,0);
-        topPanel.setSize(800,50);
+        topPanel.setLocation(0, 0);
+        topPanel.setSize(800, 50);
         topPanel.setBackground(Color.PINK);
         //topPanel.setLayout(null);
         add(topPanel);
 
-        idLabel.setSize(100,30);
-        idLabel.setLocation(50,10);
+        idLabel.setSize(100, 30);
+        idLabel.setLocation(50, 10);
         if (LoginFrame.email != null) {
             idLabel.setText(LoginFrame.email + "님 환영합니다!");
         }
         topPanel.add(idLabel);
 
-        logoutButton.setSize(100,30);
-        logoutButton.setLocation(200,20);
+        logoutButton.setSize(100, 30);
+        logoutButton.setLocation(200, 20);
         topPanel.add(logoutButton);
 
-        jobListButton.setSize(100,30);
-        jobListButton.setLocation(100,10);
+        jobListButton.setSize(100, 30);
+        jobListButton.setLocation(100, 10);
         topPanel.add(jobListButton);
 
-        userListButton.setSize(100,30);
-        userListButton.setLocation(100,10);
+        userListButton.setSize(100, 30);
+        userListButton.setLocation(100, 10);
         topPanel.add(userListButton);
 
-        companyListButton.setSize(100,30);
-        companyListButton.setLocation(150,10);
+        companyListButton.setSize(100, 30);
+        companyListButton.setLocation(150, 10);
         topPanel.add(companyListButton);
 
         subPanel.setLocation(0, 50);
@@ -117,7 +119,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         subPanel.add(checkButton);
 
         mainPanel.setLocation(0, 150);
-        mainPanel.setSize(800,350);
+        mainPanel.setSize(800, 350);
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
 
@@ -125,6 +127,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         for (User post : userList) {
             listModel.addElement(post);
         }
+
         jobList = new JList<>(listModel);
         jobList.setFixedCellHeight(40);
         jobList.setBackground(new Color(240, 248, 255)); // 배경색 (앨리스 블루)
@@ -141,6 +144,26 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         jobListButton.addActionListener(this);
         companyListButton.addActionListener(this);
         checkButton.addActionListener(this);
+        name.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    checkButton.doClick();
+                    name.transferFocus(); // 연속으로 클릭되는 걸 막기 위해 포커스 이동
+                }
+            }
+        });
+
+        address.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    checkButton.doClick();
+                    address.transferFocus(); // 연속으로 클릭되는 걸 막기 위해 포커스 이동
+                }
+            }
+        });
+
     }
 
 

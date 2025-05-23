@@ -2,6 +2,7 @@ package service;
 
 import dto.*;
 import dao.*;
+import handling.IllegalUserFormat;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,14 +15,6 @@ public class UserService {
     private UserDAO userDAO = new UserDAO();
     private List<User> userList = new ArrayList<>();
 
-    public void start() {
-
-    }
-
-    public void login() {
-
-    }
-
     // ----------------------- 유저 -------------------------
     // 유저 추가하는 기능
     public void addUser(String email, String password, String name, String address) {
@@ -33,15 +26,15 @@ public class UserService {
             String checkEmail = "";
             try {
                 checkEmail = email.substring(email.length() - 4);
-            } catch (StringIndexOutOfBoundsException e) {
-                throw new RuntimeException("이메일치고는 너무 짧은것 같아요...");
+            } catch (IllegalUserFormat e) {
+                throw new IllegalUserFormat(e);
             }
 
             if (!checkEmail.equals(".com")) {
-                throw new RuntimeException("잘못된 이메일 형식입니다.");
+                throw new IllegalUserFormat();
             }
 
-            if(address != null && address.length() < 4) {
+            if(address.length() < 4) {
                 System.out.println(address.length());
                 throw new RuntimeException("3글자 이하의 주소는 입력할 수 없습니다.");
             }
