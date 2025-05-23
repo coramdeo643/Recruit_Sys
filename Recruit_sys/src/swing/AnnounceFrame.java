@@ -22,8 +22,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
     private JPanel mainPanel;
     //TODO
-    // 1. 채용공고 추가 버튼 > insert 기능 연결
-    // 2. 채용공고 삭제 버튼 > delete 기능 연결
     // 3. 채용공고 검색 > 검색 필드JField + 검색 버튼 JButton
     // 3-1. 채용공고 이름+내용 검색 > select 기능 연결
     // 3-2. 채용공고 주소 검색 > select 기능 연결.
