@@ -26,13 +26,13 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
     //TODO
     // 1. 채용공고 추가 버튼 > insert 기능 연결
-    private JButton companyInsertButton;
+    private JButton announceInsertButton;
+    private JTextField companyName;
+    private JTextField address;
+    private JTextField content;
 
     // 2. 채용공고 삭제 버튼 > delete 기능 연결
-    private JButton companyDeleteButton;
-
-    // 3. 채용공고 검색 > 검색 필드JField + 검색 버튼 JButton
-    private JButton companySearchButton;
+    private JButton announceDeleteButton;
 
 
 
@@ -54,9 +54,12 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         jobListButton = new JButton("채용공고 목록");
         userListButton = new JButton("유저 목록");
         companyListButton = new JButton("회사 목록");
-        companyInsertButton = new JButton("공고 추가");
-        companySearchButton = new JButton("공고 검색");
-        companyDeleteButton = new JButton("공고 삭제");
+        announceInsertButton = new JButton("공고 추가");
+        announceDeleteButton = new JButton("공고 삭제");
+
+        companyName = new JTextField("", 5);
+        address = new JTextField("", 5);
+        content = new JTextField("", 5);
 
         mainPanel = new JPanel();
     }
@@ -76,6 +79,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         subPanel.setLocation(0,50);
         subPanel.setSize(800, 100);
         subPanel.setBackground(Color.WHITE);
+        subPanel.setLayout(null);
         add(subPanel);
 
         idLabel.setSize(100,30);
@@ -101,18 +105,13 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         companyListButton.setLocation(150,10);
         topPanel.add(companyListButton);
 
-        companyInsertButton.setSize(100,30);
-        companyInsertButton.setLocation(150,10);
-        subPanel.add(companyInsertButton);
+        announceInsertButton.setSize(100,30);
+        announceInsertButton.setLocation(250,10);
+        subPanel.add(announceInsertButton);
 
-        companySearchButton.setSize(100,30);
-        companySearchButton.setLocation(150,10);
-        subPanel.add(companySearchButton);
-
-        companyDeleteButton.setSize(100,30);
-        companyDeleteButton.setLocation(150,10);
-        subPanel.add(companyDeleteButton);
-
+        announceDeleteButton.setSize(100,30);
+        announceDeleteButton.setLocation(announceInsertButton.getX() + 110,10);
+        subPanel.add(announceDeleteButton);
 
         mainPanel.setLocation(0, 150);
         mainPanel.setSize(800,350);
@@ -140,10 +139,8 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         jobListButton.addActionListener(this);
         userListButton.addActionListener(this);
         companyListButton.addActionListener(this);
-        companyInsertButton.addActionListener(this);
-        companySearchButton.addActionListener(this);
-        companyDeleteButton.addActionListener(this);
-
+        announceInsertButton.addActionListener(this);
+        announceDeleteButton.addActionListener(this);
     }
 
 
@@ -160,15 +157,17 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         } else if (targetB == companyListButton) {
             new GetAllCompanyFrame();
             this.dispose();
-        } else if (targetB == companyInsertButton) {
-            new GetAllCompanyFrame();
-            this.dispose();
-        } else if (targetB == companySearchButton) {
-            new GetAllCompanyFrame();
-            this.dispose();
-        } else if (targetB == companyDeleteButton) {
-            new GetAllCompanyFrame();
-            this.dispose();
+        } else if (targetB == announceInsertButton) {
+            companyName.setLocation(150, 50);
+            address.setLocation(150, 50);
+            content.setLocation(150, 50);
+
+            subPanel.add(companyName);
+            subPanel.add(address);
+            subPanel.add(content);
+            setVisible(true);
+        } else if (targetB == announceDeleteButton) {
+
         }
     }
 
