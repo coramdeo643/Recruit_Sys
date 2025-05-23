@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CompanyDAO {
 
@@ -26,7 +27,7 @@ public class CompanyDAO {
         }
     }
 
-    // 회사목록 전체 조회
+    // 회사 목록 전체 조회
     public List<Company> getAllCompany() throws SQLException {
         List<Company> companyList = new ArrayList<>();
         String sql = "select * from company";
@@ -40,6 +41,27 @@ public class CompanyDAO {
                 companyDto.setName(rs.getString("company_name"));
                 companyDto.setAddress(rs.getString("address"));
                 companyList.add(companyDto);
+            }
+        }
+        return companyList;
+    }
+
+    // 회사 선택 조회
+    public List<Company> getSelectedCompany(String name, String address1) throws SQLException {
+        List<Company> companyList = new ArrayList<>();
+        String sql = "select * from company where company_name = ? and address like ? ";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, "%" + address1 + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String company_name = rs.getString("company_name");
+                String address = rs.getString("address");
+
+                companyList.add(new Company(id, company_name, address));
             }
         }
         return companyList;
@@ -59,7 +81,7 @@ public class CompanyDAO {
                 String name1 = rs.getString("company_name");
                 String address = rs.getString("address");
 
-                company = new Company(id,name1, address);
+                company = new Company(id, name1, address);
 
             } else {
                 return null;
@@ -68,20 +90,29 @@ public class CompanyDAO {
         return company;
     }
 
-    public static void main(String[] args) {
-
-        CompanyDAO companyDAO = new CompanyDAO();
-
-        try {
-            // companyDAO.addCompany(new Company(2, "r", "r")); // 추가 테스트
-            ArrayList<Company> companyArrayList = new ArrayList<>();
-            //companyDAO.authenticateCompany("카오"); // 인증 테스트
-
-            for (int i = 0; i < companyDAO.getAllCompany().size(); i++) {
-                System.out.println(companyDAO.getAllCompany().get(i));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    // 테스트 코드
+//    public static void main(String[] args)  throws  SQLException {
+//
+//         // 회사 선택 조회 테스트
+//        CompanyDAO companyDAO = new CompanyDAO();
+//
+//        List<Company> companyList = new ArrayList<>();
+//        companyList = companyDAO.getSelectedCompany("네이버", "성남");
+//
+//        for(Company c : companyList) {
+//            System.out.println(c);
+//        }
+//
+//        try {
+//            // companyDAO.addCompany(new Company(2, "r", "r")); // 회사추가 테스트
+//            ArrayList<Company> companyArrayList = new ArrayList<>();
+//            //companyDAO.authenticateCompany("카오"); // 회사 인증 테스트
+//
+//            for (int i = 0; i < companyDAO.getAllCompany().size(); i++) {
+//                System.out.println(companyDAO.getAllCompany().get(i));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//   }
 }
