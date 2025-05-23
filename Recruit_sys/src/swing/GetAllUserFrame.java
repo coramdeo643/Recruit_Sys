@@ -125,6 +125,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         for (User post : userList) {
             listModel.addElement(post);
         }
+
         jobList = new JList<>(listModel);
         jobList.setFixedCellHeight(40);
         jobList.setBackground(new Color(240, 248, 255)); // 배경색 (앨리스 블루)

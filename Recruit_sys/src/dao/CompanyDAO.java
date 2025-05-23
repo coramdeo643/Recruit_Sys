@@ -23,7 +23,6 @@ public class CompanyDAO {
             pstmt.setString(1, company.getName());
             pstmt.setString(2, company.getAddress());
             pstmt.executeUpdate();
-
         }
     }
 
@@ -61,7 +60,7 @@ public class CompanyDAO {
                 String company_name = rs.getString("company_name");
                 String address = rs.getString("address");
 
-                companyList.add(new Company(id, company_name, address));
+                companyList.add(new Company(company_name, address));
             }
         }
         return companyList;
@@ -81,7 +80,7 @@ public class CompanyDAO {
                 String name1 = rs.getString("company_name");
                 String address = rs.getString("address");
 
-                company = new Company(id, name1, address);
+                company = new Company(name1, address);
 
             } else {
                 return null;

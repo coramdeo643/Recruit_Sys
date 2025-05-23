@@ -1,7 +1,6 @@
 package swing;
 
 import dao.UserDAO;
-import dto.User;
 import service.UserService;
 
 import javax.swing.*;

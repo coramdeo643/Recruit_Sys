@@ -31,14 +31,14 @@ public class AnnounceDAO {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int user_id = resultSet.getInt("user_id");
-                int company_id = resultSet.getInt("company_id");
+                int userId = resultSet.getInt("user_id");
+                int companyId = resultSet.getInt("company_id");
                 String companyName = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
 
-                announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
+                announceList.add(new Announce(companyName, address, content));
             }
         }
         return announceList;
@@ -55,14 +55,14 @@ public class AnnounceDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int user_id = resultSet.getInt("user_id");
-                int company_id = resultSet.getInt("company_id");
+                int userId = resultSet.getInt("user_id");
+                int companyId = resultSet.getInt("company_id");
                 String companyName = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
 
-                announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
+                announceList.add(new Announce(companyName, address, content));
             }
         }
         return announceList;
@@ -86,13 +86,13 @@ public class AnnounceDAO {
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                int user_id = resultSet.getInt("user_id");
-                int company_id = resultSet.getInt("company_id");
+                int userId = resultSet.getInt("user_id");
+                int companyId = resultSet.getInt("company_id");
                 String name1 = resultSet.getString("company_name");
                 String address = resultSet.getString("address");
                 String contents = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-                announceList.add(new Announce(id, user_id, company_id, name1, address, contents, available));
+                announceList.add(new Announce(name1, address, contents));
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -151,64 +151,6 @@ public class AnnounceDAO {
             }
         }
         return resultSet1;
-//            while(resultSet) {
-//                int id = resultSet.getInt("id");
-//                String name1 = resultSet.getString("company_name");
-//                String contents = resultSet.getString("content");
-//                announceId.add(new Announce());
-//            }
-//
-//            preparedStatement1 = connection.prepareStatement(deleteSql);
-//            preparedStatement1.setString(1, name);
-//            preparedStatement1.setString(2, "%" + content + "%");
-//
-//            int result = 0;
-//            try {
-//                result = preparedStatement1.executeUpdate();
-//                System.out.println("111111111111 로깅 확인");
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//                System.out.println("22222222222 오류 추적 확인");
-//                throw new SQLException();
-//            }
-//
-//            if (result >= 0) {
-//                System.out.println("삭제 성공 했습니다");
-//            } else {
-//                System.out.println("삭제에 실패했습니다.");
-//            }
-//
-//            System.out.println("3333333333333333333333");
-//            Integer available = resultSet.getInt("available");
-//
-//            System.out.println("44444444444444444444");
-//            if (available < 1) {
-//                System.out.println("구인 종료");
-//            } else {
-//                System.out.println(" 구인 중");
-//            }
-//        } catch (SQLException e) {
-//            throw new SQLException();
-//        } finally {
-//            try {
-//                if (resultSet != null) {
-//                    resultSet.close();
-//                }
-//                if (preparedStatement1 != null) {
-//                    preparedStatement1.close();
-//                }
-//
-//                if (preparedStatement2 != null) {
-//                    preparedStatement2.close();
-//                }
-//                if (connection != null) {
-//                    connection.close();
-//                }
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-
     }
 
     public static void main(String[] args) throws SQLException {
@@ -242,45 +184,5 @@ public class AnnounceDAO {
         for(Announce a : announceList) {
             System.out.println(a);
         }
-
-        // 공고 추가 테스트
-        // 1. 광고 DAO 메모리 올리기
-        // 2. 광고 추가 기능 테스트 (DB 조회)
-
-        //        AnnounceDAO announceDAO = new AnnounceDAO();
-        //        Announce announce = new Announce(1, "네이버", "경기도 성남시 분당구 불정로 6", "흑흑", 1);
-        //        announceDAO.addAnnounce(announce);
-
-
-        // 공고 전체 조회 테스트1
-        //        AnnounceDAO announceDAO1 = new AnnounceDAO();
-        //        List<Announce> announceList = new ArrayList<>();
-        //        try {
-        //            announceList = announceDAO1.getAllAnnounce();
-        //        } catch (SQLException e) {
-        //            throw new RuntimeException(e);
-        //        }
-        //
-        //        for (int i = 0; i < announceList.size(); i++) {
-        //            System.out.println(announceList.get(i));
-        //        }
-        //    }
-
-        // 공고 선택 조회
-        //        AnnounceDAO announceDAO = new AnnounceDAO();
-        //        List<Announce> announceList1 = new ArrayList<>();
-        //        try {
-        //            announceList1 = announceDAO.choiceAnnounce("삼성전자", "모집");
-        //        } catch (SQLException e) {
-        //            throw new RuntimeException(e);
-        //        }
-        //        for (int i = 0; i < announceList1.size(); i++) {
-        //            System.out.println(announceList1.get(i));
-        //
-        //        }
-        //
-        //
-
-
     }
 }
