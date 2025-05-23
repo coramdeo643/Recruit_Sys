@@ -9,10 +9,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Announce {
     private int id;
-    private int user_id;
-    private int company_id;
+    private int userId;
+    private int companyId;
     private String company_name;
     private String address;
     private String content;
     private int available;
+
+    public Announce(String company_name, String address, String content) {
+        this.company_name = company_name;
+        this.address = address;
+        this.content = content;
+    }
 }
