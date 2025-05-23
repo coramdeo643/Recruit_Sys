@@ -11,8 +11,8 @@ public class AnnounceService {
 
     // 공고를 추가하는 서비스
     public void addAnnounce(Announce announce) throws SQLException {
-        if (announce.getCompany_name() == null || announce.getContent() == null
-                || announce.getCompany_name().trim().isEmpty() || announce.getContent().trim().isEmpty()) {
+        if (announce.getCompanyName() == null || announce.getContent() == null
+                || announce.getCompanyName().trim().isEmpty() || announce.getContent().trim().isEmpty()) {
             throw new SQLException("공고 이름과 공고 내용은 필수값 입니다.");
         }
 
@@ -20,7 +20,7 @@ public class AnnounceService {
 
         try {
             if (announce == null) {
-                announceDAO1.addAnnounce(new Announce(0, 0, 0, announce.getCompany_name(), announce.getAddress(), announce.getContent(), 1));
+                announceDAO1.addAnnounce(new Announce(0, 0, 0, announce.getCompanyName(), announce.getAddress(), announce.getContent(), 1));
                 System.out.println("공고가 추가 되었습니다");
             }
             List<Announce> announce1 = getAllAnnounce();
@@ -83,4 +83,5 @@ public class AnnounceService {
         announceDAO.deleteApplication(name,content);
 
     }
+
 }

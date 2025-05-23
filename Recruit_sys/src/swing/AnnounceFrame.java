@@ -1,6 +1,9 @@
 package swing;
 
+import dao.AnnounceDAO;
 import dto.Announce;
+import dto.Company;
+import dto.User;
 import service.AnnounceService;
 
 import javax.swing.*;
@@ -9,6 +12,7 @@ import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +37,10 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
     private JPanel mainPanel;
 
+    private JList<Announce> announceJList;
+    private List<Announce> announceList = new ArrayList<>();
+    private DefaultListModel<Announce> announceDefaultListModel = new DefaultListModel<>();
+    private static JScrollPane scrollPane;
 
 
     //TODO
@@ -44,7 +52,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
     // 3. 채용공고 검색 > 검색 필드JField + 검색 버튼 JButton
     private JButton companySearchButton;
-
 
 
     public AnnounceFrame() {
@@ -65,9 +72,9 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         idLabel2 = new JLabel("공고 이름");
         idLabel3 = new JLabel("주소");
         idLabel4 = new JLabel("공고 내용");
-        inputComName = new JTextField(10);
-        inputContent = new JTextField(10);
-        inputAddress = new JTextField(10);
+        inputComName = new JTextField("", 10);
+        inputContent = new JTextField("", 10);
+        inputAddress = new JTextField("", 10);
         logoutButton = new JButton("로그아웃");
         jobListButton = new JButton("채용공고 목록");
         userListButton = new JButton("유저 목록");
@@ -110,29 +117,29 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         }
         topPanel.add(idLabel1);
 
-        idLabel2.setSize(100,30);
-        idLabel2.setLocation(130,10);
+        idLabel2.setSize(100, 30);
+        idLabel2.setLocation(130, 10);
         subPanel2.add(idLabel2);
 
-        idLabel3.setSize(100,30);
-        idLabel3.setLocation(320,10);
+        idLabel3.setSize(100, 30);
+        idLabel3.setLocation(320, 10);
         subPanel2.add(idLabel3);
 
-        idLabel4.setSize(100,30);
-        idLabel4.setLocation(470,10);
+        idLabel4.setSize(100, 30);
+        idLabel4.setLocation(470, 10);
         subPanel2.add(idLabel4);
 
         subPanel2.add(inputComName);
-        inputComName.setSize(90,30);
-        inputComName.setLocation(200,10);
+        inputComName.setSize(90, 30);
+        inputComName.setLocation(200, 10);
 
         subPanel2.add(inputContent);
-        inputContent.setSize(90,30);
-        inputContent.setLocation(360,10);
+        inputContent.setSize(90, 30);
+        inputContent.setLocation(360, 10);
 
         subPanel2.add(inputAddress);
-        inputAddress.setSize(90,30);
-        inputAddress.setLocation(530,10);
+        inputAddress.setSize(90, 30);
+        inputAddress.setLocation(530, 10);
 
         logoutButton.setSize(100, 30);
         logoutButton.setLocation(200, 20);
@@ -161,10 +168,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         companyDeleteButton.setSize(100, 30);
         companyDeleteButton.setLocation(150, 10);
         subPanel1.add(companyDeleteButton);
-
-
-
-
 
 
         mainPanel.setLocation(0, 150);
@@ -199,9 +202,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
 
     }
 
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
@@ -215,15 +215,31 @@ public class AnnounceFrame extends JFrame implements ActionListener {
             new GetAllCompanyFrame();
             this.dispose();
         } else if (targetB == companyInsertButton) {
-            new GetAllCompanyFrame();
-            this.dispose();
+            if (inputComName != null && !inputComName.getText().trim().isEmpty() &&
+                    inputAddress != null && !inputAddress.getText().trim().isEmpty() &&
+                    inputContent != null && !inputContent.getText().trim().isEmpty()) {
+                try {
+                    announceService.addAnnounce(new Announce(0,0,0,inputComName.getText(),inputAddress.getText(),inputContent.getText(),1));
+                    announceList = announceService.getAllAnnounce();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                announceDefaultListModel.removeAllElements();
+                for (Announce announce : announceList) {
+                    announceDefaultListModel.addElement(announce);
+                }
+                announceJList = new JList<>();
+                scrollPane.add(announceJList);
+            }
         } else if (targetB == companySearchButton) {
-            new GetAllCompanyFrame();
-            this.dispose();
+
         } else if (targetB == companyDeleteButton) {
-            new GetAllCompanyFrame();
-            this.dispose();
+
         }
+
+
+
     }
         public static void main (String[]args){
             new AnnounceFrame();

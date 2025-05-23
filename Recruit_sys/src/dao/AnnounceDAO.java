@@ -15,7 +15,7 @@ public class AnnounceDAO {
         String sql = "INSERT INTO announce (company_name, address, content) VALUES ( ?, ?, ? ) ";
         try (Connection connection = DatabaseUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, announce.getCompany_name());
+            preparedStatement.setString(1, announce.getCompanyName());
             preparedStatement.setString(2, announce.getAddress());
             preparedStatement.setString(3, announce.getContent());
             preparedStatement.executeUpdate();
@@ -37,7 +37,6 @@ public class AnnounceDAO {
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-
                 announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
             }
         }
@@ -61,7 +60,6 @@ public class AnnounceDAO {
                 String address = resultSet.getString("address");
                 String content = resultSet.getString("content");
                 int available = resultSet.getInt("available");
-
                 announceList.add(new Announce(id, user_id, company_id, companyName, address, content, available));
             }
         }
@@ -71,12 +69,9 @@ public class AnnounceDAO {
     // 회사 주소로 공고를 조회
     public List<Announce> selectAnnounceByCompanyAddress(String AnnounceAddress) throws SQLException {
         List<Announce> announceList = new ArrayList<>();
-        // SELECT 쿼리
-        // Conn, Pstmt, Rs
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-
         try {
             String selectSql = "select * from announce where address = ? ";
             connection = DatabaseUtil.getConnection();
@@ -116,16 +111,9 @@ public class AnnounceDAO {
 
     // 공고 삭제
     public int deleteApplication(String name, String content) throws SQLException {
-        // 해당 id를 받아서 삭제 쿼리 실행
-        // 자동 삭제하기
-
-//        List<Announce> announceList = new ArrayList<>();
-//        // try() {} catch(E . e) {} <-- 자동 리소스 닫아 주는 기능
-//        // try {} catch (E . e) {}
         PreparedStatement preparedStatement = null;
         int resultSet1 = 0;
         Connection connection = DatabaseUtil.getConnection();
-
         try {
             connection.setAutoCommit(false);
             String deleteSql = " delete from announce where company_name = ? and content like ? ";
@@ -151,64 +139,6 @@ public class AnnounceDAO {
             }
         }
         return resultSet1;
-//            while(resultSet) {
-//                int id = resultSet.getInt("id");
-//                String name1 = resultSet.getString("company_name");
-//                String contents = resultSet.getString("content");
-//                announceId.add(new Announce());
-//            }
-//
-//            preparedStatement1 = connection.prepareStatement(deleteSql);
-//            preparedStatement1.setString(1, name);
-//            preparedStatement1.setString(2, "%" + content + "%");
-//
-//            int result = 0;
-//            try {
-//                result = preparedStatement1.executeUpdate();
-//                System.out.println("111111111111 로깅 확인");
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//                System.out.println("22222222222 오류 추적 확인");
-//                throw new SQLException();
-//            }
-//
-//            if (result >= 0) {
-//                System.out.println("삭제 성공 했습니다");
-//            } else {
-//                System.out.println("삭제에 실패했습니다.");
-//            }
-//
-//            System.out.println("3333333333333333333333");
-//            Integer available = resultSet.getInt("available");
-//
-//            System.out.println("44444444444444444444");
-//            if (available < 1) {
-//                System.out.println("구인 종료");
-//            } else {
-//                System.out.println(" 구인 중");
-//            }
-//        } catch (SQLException e) {
-//            throw new SQLException();
-//        } finally {
-//            try {
-//                if (resultSet != null) {
-//                    resultSet.close();
-//                }
-//                if (preparedStatement1 != null) {
-//                    preparedStatement1.close();
-//                }
-//
-//                if (preparedStatement2 != null) {
-//                    preparedStatement2.close();
-//                }
-//                if (connection != null) {
-//                    connection.close();
-//                }
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-
     }
 
     public static void main(String[] args) throws SQLException {
@@ -219,26 +149,20 @@ public class AnnounceDAO {
         String name = scanner.next();
         String content = scanner.next();
         scanner.close();
-
         AnnounceDAO announceDAO = new AnnounceDAO();
         List<Announce> announceList1 = new ArrayList<>();
-
         try {
             announceList1 = announceDAO.selectAnnounceByCompanyAddress("서울특별시 영등포구 여의대로 128");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         for (int i = 0; i < announceList1.size(); i++) {
             System.out.println(announceList1.get(i));
         }
-
         System.out.println("&&건이 조회 되었습니다");
-
         List<Announce> announceList = new ArrayList<>();
         int test = announceDAO.deleteApplication("카카오", "모집");
         announceList = announceDAO.getAllAnnounce();
-
         for(Announce a : announceList) {
             System.out.println(a);
         }
