@@ -27,7 +27,9 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
 
     private JPanel subPanel;
     private JTextField name;
+    private JLabel nameLabel;
     private JTextField address;
+    private JLabel addressLabel;
     private JButton checkButton;
 
     private JPanel mainPanel;
@@ -51,7 +53,9 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         companyListButton = new JButton("회사 목록");
         subPanel = new JPanel();
         name = new JTextField("", 5);
+        nameLabel = new JLabel("이름 입력: ");
         address = new JTextField("", 5);
+        addressLabel = new JLabel("주소 입력: ");
         checkButton = new JButton("검색하기");
 
         mainPanel = new JPanel();
@@ -97,8 +101,14 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         subPanel.setBackground(Color.WHITE);
         add(subPanel);
 
+        nameLabel.setLocation(100, 100);
+        subPanel.add(nameLabel);
+
         name.setLocation(100, 100);
         subPanel.add(name);
+
+        addressLabel.setLocation(100, 100);
+        subPanel.add(addressLabel);
 
         address.setLocation(100, 100);
         subPanel.add(address);
