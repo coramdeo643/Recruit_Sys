@@ -13,6 +13,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
     private final CompanyService companyService = new CompanyService();
     private JPanel topPanel;
+    private JPanel subPanel;
     private JLabel idLabel;
     private JButton logoutButton;
 
@@ -37,6 +38,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         topPanel = new JPanel();
+        subPanel = new JPanel();
         idLabel = new JLabel("사용자이메일@email.com");
         logoutButton = new JButton("로그아웃");
         jobListButton = new JButton("채용공고 목록");
@@ -62,6 +64,11 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         //topPanel.setLayout(null);
         add(topPanel);
 
+        subPanel.setLocation(0,50);
+        subPanel.setSize(800,100);
+        subPanel.setBackground(Color.WHITE);
+        add(subPanel);
+
         idLabel.setSize(100,30);
         idLabel.setLocation(50,10);
         if (LoginFrame.email != null) {
@@ -85,14 +92,17 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         companyListButton.setLocation(150,10);
         topPanel.add(companyListButton);
 
-        companyListButton.setSize(100,30);
-        companyListButton.setLocation(150,10);
-        topPanel.add(companyListButton);
+        companyAddButton.setSize(100,30);
+        companyAddButton.setLocation(150,10);
+        subPanel.add(companyAddButton);
 
-        companyListButton.setSize(100,30);
-        companyListButton.setLocation(150,10);
-        topPanel.add(companyListButton);
+        companyDeleteButton.setSize(100,30);
+        companyDeleteButton.setLocation(150,10);
+        subPanel.add(companyDeleteButton);
 
+        companySearchButton.setSize(100,30);
+        companySearchButton.setLocation(150,10);
+        subPanel.add(companySearchButton);
 
         mainPanel.setLocation(0, 150);
         mainPanel.setSize(800,350);
@@ -121,6 +131,9 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         jobListButton.addActionListener(this);
         userListButton.addActionListener(this);
         companyListButton.addActionListener(this);
+        companyAddButton.addActionListener(this);
+        companyDeleteButton.addActionListener(this);
+        companySearchButton.addActionListener(this);
     }
 
     @Override
@@ -134,6 +147,18 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
             this.dispose();
         } else if (targetB == jobListButton) {
             new AnnounceFrame();
+            this.dispose();
+        }
+        else if (targetB == companyAddButton) {
+            new GetAllCompanyFrame();
+            this.dispose();
+        }
+        else if (targetB == companyDeleteButton) {
+            new GetAllCompanyFrame();
+            this.dispose();
+        }
+        else if (targetB == companySearchButton) {
+            new GetAllCompanyFrame();
             this.dispose();
         }
     }
