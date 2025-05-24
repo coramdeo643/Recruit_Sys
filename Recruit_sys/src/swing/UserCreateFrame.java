@@ -108,23 +108,44 @@ public class UserCreateFrame extends JFrame implements ActionListener {
             String pw = textFields[1].getText();
             String name = textFields[2].getText();
             String addr = textFields[3].getText();
-            userService.addUser(email, pw, name, addr);
 
-            this.dispose();
+            if (textFields[0].getText().trim().isEmpty() ||
+                textFields[1].getText().trim().isEmpty() ||
+                textFields[3].getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog
+                    (null, Handling.NULL_VALUE_EXCEPTION,
+                        "필수값 확인", JOptionPane.PLAIN_MESSAGE);
+            } else if (!textFields[0].getText().substring(textFields[0].getText().length() - 4).equals(".com")) {
+                JOptionPane.showMessageDialog
+                    (null, Handling.EMAIL_EXCEPTION,
+                        "이메일 확인", JOptionPane.PLAIN_MESSAGE);
+            } else if (textFields[3].getText().length() < 4) {
+                JOptionPane.showMessageDialog
+                    (null, Handling.ADDRESS_EXCEPTION,
+                        "주소 확인", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog
+                    (null, "회원가입에 성공하였습니다!",
+                        "알림", JOptionPane.PLAIN_MESSAGE);
+                userService.addUser(email, pw, name, addr);
+                this.dispose();
+            }
+
         } else if (targetB == idCheckButton) {
             User user = userService.authenticateUser(textFields[0].getText());
             if (textFields[0].getText().isEmpty()) {
                 JOptionPane.showMessageDialog
-                        (null, Handling.NULL_VALUE_EXCEPTION,
-                                "알림", JOptionPane.PLAIN_MESSAGE);
+                    (null, Handling.NULL_VALUE_EXCEPTION,
+                        "알림", JOptionPane.PLAIN_MESSAGE);
             } else if (user != null && textFields[0].getText().equals(user.getEmail())) {
                 JOptionPane.showMessageDialog
-                        (null, Handling.DUPLICATE_EXCEPTION,
-                                "중복확인", JOptionPane.PLAIN_MESSAGE);
-            } else if (user == null) {
+                    (null, Handling.DUPLICATE_EXCEPTION,
+                        "중복확인", JOptionPane.PLAIN_MESSAGE);
+            }
+            else if (user == null) {
                 JOptionPane.showMessageDialog
-                        (null, "사용 가능한 이메일입니다!",
-                                "알림", JOptionPane.PLAIN_MESSAGE);
+                    (null, "사용 가능한 이메일입니다!",
+                        "알림", JOptionPane.PLAIN_MESSAGE);
                 UserDAO userDAO = new UserDAO();
             }
         }

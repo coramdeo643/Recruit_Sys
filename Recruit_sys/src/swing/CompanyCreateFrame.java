@@ -1,6 +1,7 @@
 package swing;
 
 import dao.CompanyDAO;
+import message.Handling;
 import service.CompanyService;
 
 import javax.swing.*;
@@ -84,12 +85,14 @@ public class CompanyCreateFrame extends JFrame implements ActionListener {
         if (targetB == companyCreateButton) {
             String name = textFields[0].getText();
             String addr = textFields[1].getText();
-            companyService.addCompany(name, addr);
-        }
 
-        if (targetB == companyCreateButton) {
-            this.dispose();
+            if (textFields[0].getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, Handling.NULL_VALUE_EXCEPTION, "알림", JOptionPane.PLAIN_MESSAGE);
+            } else {
+                companyService.addCompany(name, addr);
+                CompanyDAO companyDAO = new CompanyDAO();
+                this.dispose();
+            }
         }
-        CompanyDAO companyDAO = new CompanyDAO();
     }
 }
