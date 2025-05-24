@@ -2,7 +2,7 @@ package service;
 
 import dto.*;
 import dao.*;
-import handling.IllegalUserFormat;
+import message.Handling;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,33 +26,28 @@ public class UserService {
             String checkEmail = "";
             try {
                 checkEmail = email.substring(email.length() - 4);
-            } catch (IllegalUserFormat e) {
-                throw new IllegalUserFormat(e);
-            }
 
-            if (!checkEmail.equals(".com")) {
-                throw new IllegalUserFormat();
-            }
-
-            if(address.length() < 4) {
-                System.out.println(address.length());
-                throw new RuntimeException("3글자 이하의 주소는 입력할 수 없습니다.");
+                if (!checkEmail.equals(".com")) {
+                    throw new RuntimeException(Handling.EMAIL_EXCEPTION);
+                } else if (address.length() < 4) {
+                    System.out.println(address.length());
+                    throw new RuntimeException(Handling.ADDRESS_EXCEPTION);
+                }
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e);
             }
 
             try {
-                user = authenticateUser(email, password);
+                user = authenticateUser(email);
                 if (user == null) {
-                    userDAO.addUser(new User(0, name, email, password,address));
+                    userDAO.addUser(new User(name, email, password, address));
                     System.out.println("회원가입이 완료되었습니다!");
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (Exception e) {
-                System.err.println("회원가입을 할 수 없습니다");
-                throw new RuntimeException(e);
+                throw new RuntimeException(Handling.FORMAT_EXCEPTION);
             }
         } else {
-            throw new RuntimeException("뭔가 잘못됐어요... 올바르게 입력해주세요.");
+            throw new RuntimeException(Handling.FORMAT_EXCEPTION);
         }
     }
 
@@ -61,7 +56,7 @@ public class UserService {
         try {
             userList = userDAO.getAllUser();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
         }
 
         return userList;
@@ -72,20 +67,20 @@ public class UserService {
         try {
             userList = userDAO.getSelectedUser(name, checkAddress);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
         }
         return userList;
     }
 
     // 인증 - 유저 추가랑 연계
-    public User authenticateUser(String email, String password) {
+    public User authenticateUser(String email) {
         try {
-            user = userDAO.authenticateUser(email, password);
+            user = userDAO.authenticateUser(email);
             if (user == null) {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
         }
         return user;
     }

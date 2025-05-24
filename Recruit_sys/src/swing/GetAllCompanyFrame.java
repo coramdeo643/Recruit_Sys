@@ -66,7 +66,6 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
 
         mainPanel = new JPanel();
-
     }
 
     private void setInitLayout() {
@@ -110,7 +109,6 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         subPanel1.add(address);
         subPanel1.add(checkButton);
 
-
         // mainPanel ---------------------------------------------------------
         mainPanel.setLocation(0, 160);
         mainPanel.setSize(800, 350);
@@ -121,7 +119,6 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         for (Company post : companyList) {
             listModel.addElement(post);
         }
-
 
         JList<Company> jobList = new JList<>(listModel);
         jobList.setFixedCellHeight(40);
@@ -187,9 +184,5 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
             jobList = new JList<>(listModel);
             scrollPane.add(jobList);
         }
-    }
-
-    public static void main(String[] args) {
-        new GetAllCompanyFrame();
     }
 }

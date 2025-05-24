@@ -1,6 +1,7 @@
 package dao;
 
 import dto.Announce;
+import message.Handling;
 import util.DatabaseUtil;
 
 import java.sql.*;
@@ -95,7 +96,7 @@ public class AnnounceDAO {
                 announceList.add(new Announce(name1, address, contents));
             }
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException(Handling.FORMAT_EXCEPTION);
         } finally {
             try {
                 if (resultSet != null) {
@@ -135,9 +136,9 @@ public class AnnounceDAO {
             preparedStatement.setString(2, content);
             resultSet1 = preparedStatement.executeUpdate();
             connection.commit();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             connection.rollback();
-            throw new SQLException();
+            throw new SQLException(Handling.FORMAT_EXCEPTION);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -151,38 +152,5 @@ public class AnnounceDAO {
             }
         }
         return resultSet1;
-    }
-
-    public static void main(String[] args) throws SQLException {
-
-        // 선택 공고 조회 테스트
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("조회 할 공고를 선택해주세요");
-        String name = scanner.next();
-        String content = scanner.next();
-        scanner.close();
-
-        AnnounceDAO announceDAO = new AnnounceDAO();
-        List<Announce> announceList1 = new ArrayList<>();
-
-        try {
-            announceList1 = announceDAO.selectAnnounceByCompanyAddress("서울특별시 영등포구 여의대로 128");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (int i = 0; i < announceList1.size(); i++) {
-            System.out.println(announceList1.get(i));
-        }
-
-        System.out.println("&&건이 조회 되었습니다");
-
-        List<Announce> announceList = new ArrayList<>();
-        int test = announceDAO.deleteApplication("카카오", "모집");
-        announceList = announceDAO.getAllAnnounce();
-
-        for(Announce a : announceList) {
-            System.out.println(a);
-        }
     }
 }

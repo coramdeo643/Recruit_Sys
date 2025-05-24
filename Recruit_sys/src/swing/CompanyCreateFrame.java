@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 public class CompanyCreateFrame extends JFrame implements ActionListener {
 
     private final CompanyService companyService = new CompanyService();
@@ -24,7 +23,7 @@ public class CompanyCreateFrame extends JFrame implements ActionListener {
 
     private final JTextField[] textFields = new JTextField[2];
 
-    public CompanyCreateFrame(){
+    public CompanyCreateFrame() {
         initData();
         setInitLayout();
         addEventListener();
@@ -46,9 +45,8 @@ public class CompanyCreateFrame extends JFrame implements ActionListener {
 
         textFields[0] = nameField;
         textFields[1] = addrField;
-
-
     }
+
     private void setInitLayout() {
         setLayout(null);
         setResizable(false);
@@ -83,20 +81,15 @@ public class CompanyCreateFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton targetB = (JButton) e.getSource();
 
-        if(targetB == companyCreateButton){
+        if (targetB == companyCreateButton) {
             String name = textFields[0].getText();
             String addr = textFields[1].getText();
             companyService.addCompany(name, addr);
-
         }
 
-        if(targetB == companyCreateButton){
+        if (targetB == companyCreateButton) {
             this.dispose();
         }
         CompanyDAO companyDAO = new CompanyDAO();
-    }
-
-    public static void main(String[] args) {
-        new CompanyCreateFrame();
     }
 }

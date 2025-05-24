@@ -1,6 +1,8 @@
 package swing;
 
 import dao.UserDAO;
+import dto.User;
+import message.Handling;
 import service.UserService;
 
 import javax.swing.*;
@@ -55,13 +57,8 @@ public class UserCreateFrame extends JFrame implements ActionListener {
 
         textFields[0] = emailField;
         textFields[1] = pwField;
-        textFields[2] = nameField; 
+        textFields[2] = nameField;
         textFields[3] = addrField;
-
-//        String email = textFields[0].getText();
-//        String pw = textFields[1].getText();
-//        String name = textFields[2].getText();
-//        String addr = textFields[3].getText();
     }
 
     private void setInitLayout() {
@@ -95,7 +92,6 @@ public class UserCreateFrame extends JFrame implements ActionListener {
         panelB.add(userCreateButton);
 
         setVisible(true);
-
     }
 
     private void addEventListener() {
@@ -116,18 +112,21 @@ public class UserCreateFrame extends JFrame implements ActionListener {
 
             this.dispose();
         } else if (targetB == idCheckButton) {
-            if (emailField.getText().isEmpty()) {
+            User user = userService.authenticateUser(textFields[0].getText());
+            if (textFields[0].getText().isEmpty()) {
                 JOptionPane.showMessageDialog
-                        (null,"입력된 값이 없어요. 아이디를 입력해주세요.",
+                        (null, Handling.NULL_VALUE_EXCEPTION,
+                                "알림", JOptionPane.PLAIN_MESSAGE);
+            } else if (user != null && textFields[0].getText().equals(user.getEmail())) {
+                JOptionPane.showMessageDialog
+                        (null, Handling.DUPLICATE_EXCEPTION,
                                 "중복확인", JOptionPane.PLAIN_MESSAGE);
-                return;
+            } else if (user == null) {
+                JOptionPane.showMessageDialog
+                        (null, "사용 가능한 이메일입니다!",
+                                "알림", JOptionPane.PLAIN_MESSAGE);
+                UserDAO userDAO = new UserDAO();
             }
-            UserDAO userDAO = new UserDAO();
-
         }
-    }
-
-    public static void main(String[] args) {
-        new UserCreateFrame();
     }
 }

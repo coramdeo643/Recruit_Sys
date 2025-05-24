@@ -73,7 +73,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         add(panelB);
         userCreate.setSize(80, 50);
         panelB.add(userCreate);
-        companyCreate.setSize(80,50);
+        companyCreate.setSize(80, 50);
         panelB.add(companyCreate);
 
         setVisible(true);
@@ -101,19 +101,17 @@ public class LoginFrame extends JFrame implements ActionListener {
             new UserCreateFrame();
         } else if (targetB == userLogin) {
             if (idField.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "이메일을 입력해주세요.","",JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "이메일을 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);
             } else if (String.valueOf(pwField.getPassword()).isEmpty()) {
                 JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.", "", JOptionPane.PLAIN_MESSAGE);
             } else {
-                //TODO
-                // 1. 로그인 기능 연결
                 email = idField.getText();
-                User user = userService.authenticateUser(email, String.valueOf(pwField.getPassword()));
-                if (user != null) {
+                User user = userService.authenticateUser(email);
+                if (user != null && String.valueOf(pwField.getPassword()).equals(user.getPassword())) {
                     new AnnounceFrame();
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(null, "존재하지 않는 회원입니다.","로그인 오류",JOptionPane.PLAIN_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "존재하지 않는 회원입니다.", "로그인 오류", JOptionPane.PLAIN_MESSAGE);
                 }
             }
         } else if (targetB == companyCreate) {

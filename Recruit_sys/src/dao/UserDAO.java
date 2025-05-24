@@ -15,8 +15,8 @@ public class UserDAO {
     // 유저 추가
     public void addUser(User user) throws SQLException {
         String insertSql = "insert into user(user_name, email, password, address) values (?, ?, ?, ?) ";
-        try(Connection conn = DatabaseUtil.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getEmail());
             pstmt.setString(3, user.getPassword());
@@ -30,18 +30,18 @@ public class UserDAO {
         List<User> userList = new ArrayList<>();
         String checkSql = "select * from user ";
 
-        try(Connection conn = DatabaseUtil.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(checkSql);
-            ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(checkSql);
+             ResultSet rs = pstmt.executeQuery()) {
 
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("user_name");
                 String email = rs.getString("email");
                 String password = "";
                 String address = rs.getString("address").substring(0, 3).trim() + "****";
 
-                userList.add(new User(id, name, email, password, address));
+                userList.add(new User(name, email, password, address));
             }
         }
         return userList;
@@ -52,44 +52,43 @@ public class UserDAO {
         List<User> userList = new ArrayList<>();
         String selectUserSql = "select id, user_name, email, address from user where user_name like ? and address like ? ";
 
-        try(Connection conn = DatabaseUtil.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(selectUserSql)) {
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(selectUserSql)) {
             pstmt.setString(1, ("%" + name + "%"));
             pstmt.setString(2, ("%" + checkAddress + "%"));
             ResultSet rs = pstmt.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("id");
                 String user_name = rs.getString("user_name");
                 String email = rs.getString("email");
                 String password = "";
                 String address = rs.getString("address").substring(0, 3).trim() + "****";
 
-                userList.add(new User(id, user_name, email, password, address));
+                userList.add(new User(user_name, email, password, address));
             }
         }
         return userList;
     }
 
     // 유저 인증
-    public User authenticateUser(String email, String password) throws SQLException {
-        String checkSql = "select * from user where email = ? and password = ? ";
+    public User authenticateUser(String email) throws SQLException {
+        String checkSql = "select * from user where email = ? ";
         User user = null;
 
-        try(Connection conn = DatabaseUtil.getConnection();) {
+        try (Connection conn = DatabaseUtil.getConnection();) {
             PreparedStatement pstmt = conn.prepareStatement(checkSql);
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("user_name");
                 String email1 = rs.getString("email");
                 String password1 = rs.getString("password");
                 String address = rs.getString("address");
 
-                user = new User(id, name, email1, password1, address);
+                user = new User(name, email1, password1, address);
             } else {
                 return null;
             }

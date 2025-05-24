@@ -2,6 +2,7 @@ package service;
 
 import dto.*;
 import dao.*;
+import message.Handling;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,10 +14,6 @@ public class CompanyService {
     private CompanyDAO companyDAO = new CompanyDAO();
     private List<Company> companyList = new ArrayList<>();
 
-    public void start() {
-
-    }
-
     // 회사 추가하는 기능
     public void addCompany(String name, String address) {
         if (name != null && !name.trim().isEmpty() &&
@@ -24,13 +21,13 @@ public class CompanyService {
             try {
                 company = companyDAO.authenticateCompany(company.getName());
                 if (company == null) {
-                    companyDAO.addCompany(new Company(0, name, address));
+                    companyDAO.addCompany(new Company(name, address));
                     System.out.println("회사 등록이 완료되었습니다!");
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } catch (Exception e) {
-                System.err.println("회사 등록을 할 수 없습니다");
+                System.err.println(Handling.FAIL_ADD_EXCEPTION);
                 throw new RuntimeException(e);
             }
         }
@@ -41,7 +38,7 @@ public class CompanyService {
         try {
             companyList = companyDAO.getAllCompany();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
         }
         return companyList;
     }
@@ -51,6 +48,7 @@ public class CompanyService {
         try {
             companyList = companyDAO.getSelectedCompany(name, address);
         } catch (SQLException e) {
+            throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
         }
         return companyList;
     }

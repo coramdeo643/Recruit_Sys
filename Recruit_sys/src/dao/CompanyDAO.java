@@ -88,30 +88,4 @@ public class CompanyDAO {
         }
         return company;
     }
-
-    // 테스트 코드
-//    public static void main(String[] args)  throws  SQLException {
-//
-//         // 회사 선택 조회 테스트
-//        CompanyDAO companyDAO = new CompanyDAO();
-//
-//        List<Company> companyList = new ArrayList<>();
-//        companyList = companyDAO.getSelectedCompany("네이버", "성남");
-//
-//        for(Company c : companyList) {
-//            System.out.println(c);
-//        }
-//
-//        try {
-//            // companyDAO.addCompany(new Company(2, "r", "r")); // 회사추가 테스트
-//            ArrayList<Company> companyArrayList = new ArrayList<>();
-//            //companyDAO.authenticateCompany("카오"); // 회사 인증 테스트
-//
-//            for (int i = 0; i < companyDAO.getAllCompany().size(); i++) {
-//                System.out.println(companyDAO.getAllCompany().get(i));
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//   }
 }

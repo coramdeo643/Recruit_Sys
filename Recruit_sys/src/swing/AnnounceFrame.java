@@ -1,14 +1,10 @@
 package swing;
 
-import dao.AnnounceDAO;
 import dto.Announce;
-import dto.Company;
-import dto.User;
+import message.Handling;
 import service.AnnounceService;
 
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,17 +38,10 @@ public class AnnounceFrame extends JFrame implements ActionListener {
     private DefaultListModel<Announce> announceDefaultListModel = new DefaultListModel<>();
     private static JScrollPane scrollPane;
 
-
-    //TODO
-    // 1. 채용공고 추가 버튼 > insert 기능 연결
+    // 검색 기능을 할 버튼
     private JButton companyInsertButton;
-
-    // 2. 채용공고 삭제 버튼 > delete 기능 연결
     private JButton companyDeleteButton;
-
-    // 3. 채용공고 검색 > 검색 필드JField + 검색 버튼 JButton
     private JButton companySearchButton;
-
 
     public AnnounceFrame() {
         initData();
@@ -82,7 +71,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         companyInsertButton = new JButton("공고 추가");
         companySearchButton = new JButton("공고 검색");
         companyDeleteButton = new JButton("공고 삭제");
-
 
         mainPanel = new JPanel();
     }
@@ -169,7 +157,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         companyDeleteButton.setLocation(150, 10);
         subPanel1.add(companyDeleteButton);
 
-
         mainPanel.setLocation(0, 150);
         mainPanel.setSize(800, 350);
         mainPanel.setBackground(Color.PINK);
@@ -199,7 +186,6 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         companyInsertButton.addActionListener(this);
         companySearchButton.addActionListener(this);
         companyDeleteButton.addActionListener(this);
-
     }
 
     @Override
@@ -219,10 +205,10 @@ public class AnnounceFrame extends JFrame implements ActionListener {
                     inputAddress != null && !inputAddress.getText().trim().isEmpty() &&
                     inputContent != null && !inputContent.getText().trim().isEmpty()) {
                 try {
-                    announceService.addAnnounce(new Announce(0,0,0,inputComName.getText(),inputAddress.getText(),inputContent.getText(),1));
+                    announceService.addAnnounce(new Announce(inputComName.getText(), inputAddress.getText(), inputContent.getText()));
                     announceList = announceService.getAllAnnounce();
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(Handling.FAIL_ADD_EXCEPTION);
                 }
 
                 announceDefaultListModel.removeAllElements();
@@ -238,7 +224,7 @@ public class AnnounceFrame extends JFrame implements ActionListener {
                 try {
                     announceService.choiceAnnounce(inputComName.getText(), inputContent.getText());
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
                 }
                 announceDefaultListModel.removeAllElements();
                 for (Announce announce : announceList) {
@@ -249,12 +235,12 @@ public class AnnounceFrame extends JFrame implements ActionListener {
             }
         } else if (targetB == companyDeleteButton) {
             if (inputComName.getText().trim().isEmpty() || inputAddress.getText().trim().isEmpty() ||
-            inputContent.getText().trim().isEmpty()); {
+                    inputContent.getText().trim().isEmpty()) ;
+            {
                 try {
                     announceService.deleteApplication(inputComName.getText(), inputContent.getText());
-
                 } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(Handling.FAIL_DEL_EXCEPTION);
                 }
                 announceDefaultListModel.removeAllElements();
                 for (Announce announce : announceList) {
@@ -264,10 +250,5 @@ public class AnnounceFrame extends JFrame implements ActionListener {
                 scrollPane.add(announceJList);
             }
         }
-
     }
-        public static void main (String[]args){
-            new AnnounceFrame();
-
-        }
-    }
+}

@@ -163,9 +163,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
                 }
             }
         });
-
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -194,9 +192,5 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
             jobList = new JList<>(listModel);
             scrollPane.add(jobList);
         }
-    }
-
-    public static void main(String[] args) {
-        new GetAllUserFrame();
     }
 }
