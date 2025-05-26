@@ -5,11 +5,13 @@ import dto.Announce;
 import message.Handling;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnnounceService {
 
-    private final AnnounceDAO announceDAO = new AnnounceDAO();
+    private AnnounceDAO announceDAO = new AnnounceDAO();
+    private List<Announce> announceList = new ArrayList<>();
 
     // 공고를 추가하는 서비스
     public void addAnnounce(Announce announce) throws SQLException {
@@ -17,14 +19,10 @@ public class AnnounceService {
                 || announce.getCompanyName().trim().isEmpty() || announce.getContent().trim().isEmpty()) {
             throw new SQLException(Handling.ANNOUNCE_MISS_EXCEPTION);
         }
-        AnnounceDAO announceDAO1 = new AnnounceDAO();
 
         try {
-            if (announce == null) {
-                announceDAO1.addAnnounce(new Announce(announce.getCompanyName(), announce.getAddress(), announce.getContent()));
-                System.out.println("공고가 추가 되었습니다");
-            }
-            List<Announce> announce1 = getAllAnnounce();
+            announceDAO.addAnnounce(new Announce(announce.getCompanyName(), announce.getAddress(), announce.getContent()));
+            System.out.println("공고가 추가 되었습니다");
         } catch (SQLException e) {
             throw new RuntimeException(Handling.FAIL_ADD_EXCEPTION);
         }
@@ -32,7 +30,7 @@ public class AnnounceService {
 
     // 공고 전체 조회 서비스
     public List<Announce> getAllAnnounce() {
-        List<Announce> announceList = null;
+        announceList = null;
         try {
             announceList = announceDAO.getAllAnnounce();
         } catch (SQLException e) {
@@ -43,7 +41,7 @@ public class AnnounceService {
 
     // 공고 선택 조회 서비스
     public List<Announce> choiceAnnounce(String name, String content) throws SQLException {
-        List<Announce> announceList = null;
+        announceList = null;
         try {
             announceList = announceDAO.choiceAnnounce(name, content);
         } catch (SQLException e) {
@@ -58,7 +56,7 @@ public class AnnounceService {
 
     // 회사 주소로 공고 조회
     public List<Announce> selectAnnounceAddress(String Address) throws SQLException {
-        List<Announce> announceList = null;
+        announceList = null;
         try {
             announceList = announceDAO.selectAnnounceByCompanyAddress(Address);
         } catch (SQLException e) {

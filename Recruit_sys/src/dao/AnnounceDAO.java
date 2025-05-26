@@ -125,15 +125,15 @@ public class AnnounceDAO {
 //        // try {} catch (E . e) {}
         PreparedStatement preparedStatement = null;
         int resultSet1 = 0;
-        Connection connection = DatabaseUtil.getConnection();
+        Connection connection = null;
 
         try {
-            connection.setAutoCommit(false);
             String deleteSql = " delete from announce where company_name = ? and content like ? ";
             connection = DatabaseUtil.getConnection();
+            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(deleteSql);
             preparedStatement.setString(1, name);
-            preparedStatement.setString(2, content);
+            preparedStatement.setString(2, "%" + content + "%");
             resultSet1 = preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException e) {

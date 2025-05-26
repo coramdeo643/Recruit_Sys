@@ -76,8 +76,8 @@ public class UserDAO {
         String checkSql = "select * from user where email = ? ";
         User user = null;
 
-        try (Connection conn = DatabaseUtil.getConnection();) {
-            PreparedStatement pstmt = conn.prepareStatement(checkSql);
+        try (Connection conn = DatabaseUtil.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(checkSql)) {
             pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
 

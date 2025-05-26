@@ -107,10 +107,10 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         subPanel2.add(inputComName);
 
         subPanel2.add(idLabel3);
-        subPanel2.add(inputContent);
+        subPanel2.add(inputAddress);
 
         subPanel2.add(idLabel4);
-        subPanel2.add(inputAddress);
+        subPanel2.add(inputContent);
 
         logoutButton.setSize(100, 30);
         logoutButton.setLocation(200, 20);
@@ -145,16 +145,15 @@ public class AnnounceFrame extends JFrame implements ActionListener {
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
 
-        List<Announce> sampleList = announceService.getAllAnnounce();
-        DefaultListModel<Announce> listModel = new DefaultListModel<>();
-        for (Announce post : sampleList) {
-            listModel.addElement(post);
+        announceList = announceService.getAllAnnounce();
+        for (Announce post : announceList) {
+            announceDefaultListModel.addElement(post);
         }
-        JList<Announce> jobList = new JList<>(listModel);
-        jobList.setFixedCellHeight(40);
-        jobList.setBackground(new Color(240, 248, 255));
-        jobList.setForeground(new Color(25, 25, 112));
-        JScrollPane scrollPane = new JScrollPane(jobList);
+        announceJList = new JList<>(announceDefaultListModel);
+        announceJList.setFixedCellHeight(40);
+        announceJList.setBackground(new Color(240, 248, 255));
+        announceJList.setForeground(new Color(25, 25, 112));
+        scrollPane = new JScrollPane(announceJList);
         scrollPane.setPreferredSize(new Dimension(600, 300));
         mainPanel.add(scrollPane);
 
@@ -189,23 +188,22 @@ public class AnnounceFrame extends JFrame implements ActionListener {
                     inputContent != null && !inputContent.getText().trim().isEmpty()) {
                 try {
                     announceService.addAnnounce(new Announce(inputComName.getText(), inputAddress.getText(), inputContent.getText()));
-                    announceList = announceService.getAllAnnounce();
                 } catch (SQLException ex) {
                     throw new RuntimeException(Handling.FAIL_ADD_EXCEPTION);
                 }
 
+                announceList = announceService.getAllAnnounce();
                 announceDefaultListModel.removeAllElements();
                 for (Announce announce : announceList) {
                     announceDefaultListModel.addElement(announce);
                 }
-                announceJList = new JList<>();
+                announceJList = new JList<>(announceDefaultListModel);
                 scrollPane.add(announceJList);
             }
         } else if (targetB == companySearchButton) {
-            if (!inputComName.getText().trim().isEmpty() || !Boolean.parseBoolean(inputAddress.getText().trim()) ||
-                    !inputContent.getText().trim().isEmpty()) {
+            if (!inputComName.getText().trim().isEmpty() && !inputContent.getText().trim().isEmpty()) {
                 try {
-                    announceService.choiceAnnounce(inputComName.getText(), inputContent.getText());
+                    announceList = announceService.choiceAnnounce(inputComName.getText(), inputContent.getText());
                 } catch (SQLException ex) {
                     throw new RuntimeException(Handling.FAIL_GET_EXCEPTION);
                 }
@@ -213,29 +211,35 @@ public class AnnounceFrame extends JFrame implements ActionListener {
                 for (Announce announce : announceList) {
                     announceDefaultListModel.addElement(announce);
                 }
-                announceJList = new JList<>();
+                announceJList = new JList<>(announceDefaultListModel);
+                scrollPane.add(announceJList);
+            } else if (inputComName.getText().trim().isEmpty() || inputAddress.getText().trim().isEmpty() ||
+                    inputContent.getText().trim().isEmpty()) {
+                announceList = announceService.getAllAnnounce();
+                announceDefaultListModel.removeAllElements();
+                for (Announce announce : announceList) {
+                    announceDefaultListModel.addElement(announce);
+                }
+                announceJList = new JList<>(announceDefaultListModel);
                 scrollPane.add(announceJList);
             }
         } else if (targetB == companyDeleteButton) {
-            if (inputComName.getText().trim().isEmpty() || inputAddress.getText().trim().isEmpty() ||
-                    inputContent.getText().trim().isEmpty()) ;
+            if (!inputComName.getText().trim().isEmpty() ||
+                    !inputContent.getText().trim().isEmpty())
             {
                 try {
                     announceService.deleteApplication(inputComName.getText(), inputContent.getText());
                 } catch (SQLException ex) {
                     throw new RuntimeException(Handling.FAIL_DEL_EXCEPTION);
                 }
+                announceList = announceService.getAllAnnounce();
                 announceDefaultListModel.removeAllElements();
                 for (Announce announce : announceList) {
                     announceDefaultListModel.addElement(announce);
                 }
-                announceJList = new JList<>();
+                announceJList = new JList<>(announceDefaultListModel);
                 scrollPane.add(announceJList);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        new AnnounceFrame();
     }
 }
