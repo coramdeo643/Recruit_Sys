@@ -86,11 +86,11 @@ public class CompanyCreateFrame extends JFrame implements ActionListener {
             String name = textFields[0].getText();
             String addr = textFields[1].getText();
 
-            if (textFields[0].getText().trim().isEmpty()) {
+            if (textFields[0].getText().trim().isEmpty() || textFields[1].getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, Handling.NULL_VALUE_EXCEPTION, "알림", JOptionPane.PLAIN_MESSAGE);
             } else {
                 companyService.addCompany(name, addr);
-                CompanyDAO companyDAO = new CompanyDAO();
+                JOptionPane.showMessageDialog(null, "회사 등록이 성공적으로 완료되었습니다!", "알림", JOptionPane.PLAIN_MESSAGE);
                 this.dispose();
             }
         }
