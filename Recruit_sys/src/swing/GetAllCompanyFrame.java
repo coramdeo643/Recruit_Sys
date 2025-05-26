@@ -59,9 +59,9 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
 
         subPanel1 = new JPanel();
         checkButton = new JButton("검색하기");
-        companyNameLabel = new JLabel("회사명");
+        companyNameLabel = new JLabel("이름 입력 : ");
         name = new JTextField("", 5);
-        companyAddrLabel = new JLabel("회사주소");
+        companyAddrLabel = new JLabel("     주소 입력 : ");
         address = new JTextField("", 5);
 
 
@@ -72,7 +72,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         setLayout(null);
         setResizable(false);
         setLocationRelativeTo(null);
-        getContentPane().setBackground(Color.gray);
+        getContentPane().setBackground(Color.PINK);
 
         // topPanel ---------------------------------------------------------
         topPanel.setLocation(0, 0);
@@ -100,7 +100,7 @@ public class GetAllCompanyFrame extends JFrame implements ActionListener {
         // subPanel1 ---------------------------------------------------------
         subPanel1.setLocation(0, 60);
         subPanel1.setSize(800, 40);
-        subPanel1.setBackground(Color.orange);
+        subPanel1.setBackground(Color.PINK);
         add(subPanel1);
 
         subPanel1.add(companyNameLabel);

@@ -55,9 +55,9 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         companyListButton = new JButton("회사 목록");
         subPanel = new JPanel();
         name = new JTextField("", 5);
-        nameLabel = new JLabel("이름 입력: ");
+        nameLabel = new JLabel("이름 입력 : ");
         address = new JTextField("", 5);
-        addressLabel = new JLabel("주소 입력: ");
+        addressLabel = new JLabel("     주소 입력 : ");
         checkButton = new JButton("검색하기");
 
         mainPanel = new JPanel();
@@ -67,7 +67,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         setLayout(null);
         setResizable(false);
         setLocationRelativeTo(null);
-        getContentPane().setBackground(Color.gray);
+        getContentPane().setBackground(Color.PINK);
 
         topPanel.setLocation(0, 0);
         topPanel.setSize(800, 50);
@@ -98,9 +98,9 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         companyListButton.setLocation(150, 10);
         topPanel.add(companyListButton);
 
-        subPanel.setLocation(0, 50);
-        subPanel.setSize(800, 100);
-        subPanel.setBackground(Color.WHITE);
+        subPanel.setLocation(0, 60);
+        subPanel.setSize(800, 40);
+        subPanel.setBackground(Color.PINK);
         add(subPanel);
 
         nameLabel.setLocation(100, 100);
@@ -118,7 +118,7 @@ public class GetAllUserFrame extends JFrame implements ActionListener {
         checkButton.setLocation(100, 100);
         subPanel.add(checkButton);
 
-        mainPanel.setLocation(0, 150);
+        mainPanel.setLocation(0, 160);
         mainPanel.setSize(800, 350);
         mainPanel.setBackground(Color.PINK);
         add(mainPanel);
